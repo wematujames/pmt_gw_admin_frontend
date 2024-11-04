@@ -15,6 +15,7 @@ import {
 import { FiFilter } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import { getPlatformMerchants } from "@/actions/merchants";
+import moment from "moment";
 
 const { Option } = Select;
 
@@ -49,8 +50,13 @@ export default function FilterTransaction({
     );
 
     if (vals.dateTime) {
-      vals.startDate = (vals as any).dateTime[0].$d;
-      vals.endDate = (vals as any).dateTime[1].$d;
+      vals.startDate = moment((vals as any).dateTime[0].$d)
+        .startOf("day")
+        .toISOString();
+
+      vals.endDate = moment((vals as any).dateTime[1].$d)
+        .endOf("day")
+        .toISOString();
     }
 
     setFilter({ ...vals, dateTime: undefined });
