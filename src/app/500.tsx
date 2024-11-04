@@ -7,7 +7,7 @@ const App: React.FC = () => (
     title="500"
     subTitle="Sorry, something went wrong."
     extra={
-      <Button type="primary" href="/nerasol/dashboard/financial">
+      <Button type="primary" href="/dashboard/financial">
         Back Home
       </Button>
     }

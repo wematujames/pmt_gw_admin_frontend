@@ -7,10 +7,10 @@ export function useAuth(type: string ) {
 
     useEffect(() => {
         setTimeout(() => {
-            const token = localStorage.getItem(`${type}-token`);
+            const token = localStorage.getItem(`nerasol-token`);
             
             if (!token) {
-                router.push(`/auth/login?tab=${type}`);
+                router.push(`/auth/login`);
             } else {
                 setAuthenticated(true);
             }

@@ -9,7 +9,7 @@ const NotFound: React.FC = () => (
     title="404"
     subTitle="Sorry, the page you are looking for does not exist."
     extra={
-      <Button type="primary" href="/nerasol/dashboard/financial">
+      <Button type="primary" href="/dashboard/financial">
         Back Home
       </Button>
     }

@@ -1,29 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Flex, Divider, Card, Tabs } from "antd";
+import { Flex, Divider, Card } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { Typography } from "antd";
 import styles from "./styles.module.css";
 import { useEffect } from "react";
-import MerchantLogin from "../../merchant/(no-auth)/auth/login/MerchantLogin";
-import NerasolLogin from "../../nerasol/(no-auth)/auth/login/AdminLogin";
-import MerchantSetAuthTokenHeader from "@/app/merchant/actions/utils/setAuthToken";
-import NerasolSetAuthTokenHeader from "@/app/nerasol/actions/utils/setAuthToken";
+import NerasolLogin from "./AdminLogin";
+import NerasolSetAuthTokenHeader from "@/actions/utils/setAuthToken";
 
 export default function LoginPage() {
   const router = useRouter();
 
   useEffect(() => {
     if (localStorage.getItem("admin-token")) {
-      router.push("/nerasol/dashboard/financial");
+      router.push("/dashboard/financial");
       NerasolSetAuthTokenHeader();
-    }
-
-    if (localStorage.getItem("merchant-token")) {
-      MerchantSetAuthTokenHeader();
-      router.push("/merchant/dashboard/financial");
     }
   });
 
@@ -57,22 +50,8 @@ export default function LoginPage() {
             </Typography.Title>
             <Divider style={{ margin: 0 }} />
           </Flex>
-          <Tabs
-            defaultActiveKey="merchant"
-            centered
-            items={[
-              {
-                label: `Merchant`,
-                key: "merchant",
-                children: <MerchantLogin />,
-              },
-              {
-                label: `Nerasol`,
-                key: "nerasol",
-                children: <NerasolLogin />,
-              },
-            ]}
-          />
+
+          <NerasolLogin />
         </Card>
       </Flex>
     </Flex>

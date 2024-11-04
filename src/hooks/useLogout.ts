@@ -1,5 +1,4 @@
-import { logoutUser as merchantLogout } from "@/app/merchant/actions/auth";
-import { logoutUser } from "@/app/nerasol/actions/auth";
+import { logoutUser } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 
 export function useLogout(type: string) {
@@ -7,18 +6,12 @@ export function useLogout(type: string) {
 
     const logout = async () => {
         try {
-            if (type === "merchant"){
-                await merchantLogout()
-            }
-
-            if (type === "nerasol"){
-                await logoutUser()
-            }
+            await logoutUser();
         } catch (err) {
             
         } finally {
-            localStorage.removeItem(`${type}-token`);
-            router.push(`/auth/login?tab=${type}`);
+            localStorage.removeItem(`nerasol-token`);
+            router.push(`/auth/login`);
         }
     };
 

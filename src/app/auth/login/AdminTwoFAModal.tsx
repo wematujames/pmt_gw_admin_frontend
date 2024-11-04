@@ -1,4 +1,4 @@
-import { login2fa } from "@/app/actions/auth";
+import { login2fa } from "@/actions/auth";
 import { useMessage } from "@/hooks/useMessage";
 import { removeUndefinedValues } from "@/utils/common";
 import { useMutation } from "@tanstack/react-query";
@@ -8,7 +8,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-function TwoFAModal({
+function AdminTwoFAModal({
   loginToken,
   open = false,
   setOpen,
@@ -77,4 +77,4 @@ function TwoFAModal({
   );
 }
 
-export default TwoFAModal;
+export default AdminTwoFAModal;
