@@ -48,9 +48,8 @@ export default function LoginPage() {
             <Typography.Title level={4}>
               Sign In To Your Account
             </Typography.Title>
-            <Divider style={{ margin: 0 }} />
           </Flex>
-
+          <Divider style={{ marginTop: 5, marginBottom: 30 }} />
           <NerasolLogin />
         </Card>
       </Flex>
