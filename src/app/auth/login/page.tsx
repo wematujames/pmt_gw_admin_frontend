@@ -14,7 +14,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (localStorage.getItem("admin-token")) {
+    if (localStorage.getItem("nerasol-token")) {
       router.push("/dashboard/financial");
       NerasolSetAuthTokenHeader();
     }
