@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Result } from "antd";
 import VerifyEmailFailed from "./Failed";
 import EmailVerificationSuccess from "./Success";
-import styles from "../../../../../utility.module.css";
+import styles from "../../../utility.module.css";
 const VerifyEmail: React.FC = () => {
   const { openMessage } = useMessage();
   const searchParams = useSearchParams();
