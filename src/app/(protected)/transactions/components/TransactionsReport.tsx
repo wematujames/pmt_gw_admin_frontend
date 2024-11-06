@@ -45,7 +45,6 @@ function TransactionReport() {
           <Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
             {record._id}
           </Typography.Text>
-          <small>{record.merchantRef}</small>
           <small>{record.merchant?.merchantId}</small>
         </Space>
       ),
