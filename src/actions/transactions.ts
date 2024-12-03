@@ -4,6 +4,10 @@ import setAuthTokenHeader from "./utils/setAuthToken";
 export const getTransactions = async (_filter: any = {}) =>  {
   setAuthTokenHeader()
   
+  // await new Promise((res) => setTimeout(() => {
+  //   res("");
+  // }, 2000))
+  
   const filter = {} as any;
 
   Object.keys(_filter.filter).forEach((key: any) => {

@@ -10,16 +10,16 @@ import {
   Typography,
 } from "antd";
 import TransactionDetail from "./TransactionDetails";
-import FilterTransaction from "./FilterTransactions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdNumbers } from "react-icons/md";
 import { getTransactions } from "@/actions/transactions";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import exportData from "@/utils/exportData";
 import { BiExport } from "react-icons/bi";
 import { getRecColor } from "@/utils/common";
 import { FiRefreshCw } from "react-icons/fi";
+import FilterTransaction from "./FilterTransactions";
+import exportData from "@/utils/exportData";
 
 function TransactionReport() {
   const { token } = theme.useToken();
@@ -136,21 +136,44 @@ function TransactionReport() {
     },
   ];
 
+  const [txns, setTxns] = useState([] as any[]);
+  const [page, setPage] = useState(0);
+  //"2024-08-01" //"2024-12-01"
   const [filter, setFilter] = useState({
     startDate: moment().startOf("day").toISOString(),
     endDate: moment().endOf("day").toISOString(),
   });
 
-  const txnsQuery = useInfiniteQuery({
-    queryKey: ["transactions", filter],
-    queryFn: ({ pageParam = 1 }) => getTransactions({ pageParam, filter }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      return lastPage?.meta?.pagination?.next?.page || false;
+  const txnsQuery = useQuery({
+    queryKey: ["transactions", page],
+    queryFn: async () => {
+      if (page === 0 || page === 1) setTxns([]);
+
+      const res = await getTransactions({ pageParam: page, filter });
+
+      if (page === 0 || page === 1) {
+        setTxns(res.data);
+      } else setTxns((prev) => [...prev, ...res.data]);
+
+      return res;
     },
+    // placeholderData: keepPreviousData,
   });
 
-  const transactions = txnsQuery.data?.pages.flatMap((page) => page.data) || [];
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (
+        !txnsQuery.isFetching &&
+        !txnsQuery.isPending &&
+        txnsQuery.data?.meta?.pagination?.next?.page &&
+        txns.length < txnsQuery.data?.meta.total
+      ) {
+        setPage(txnsQuery.data?.meta?.pagination?.next?.page);
+      }
+    }, 1500);
+
+    return () => clearTimeout(timeout);
+  }, [txnsQuery.data, txnsQuery.isPending, txnsQuery.isFetching]);
 
   return (
     <Table
@@ -158,19 +181,29 @@ function TransactionReport() {
         <Flex justify="space-between">
           <Space style={{ fontSize: token.fontSizeHeading5 }}>
             <MdNumbers size={token.fontSizeIcon} />
-            Count: {transactions.length}
+            Count: {txns.length} / {txnsQuery.data?.meta.total}
           </Space>
+
+          {txnsQuery.isFetching && "Loading"}
+
           <Space>
             <FilterTransaction
               filter={filter}
+              setPage={setPage}
               setFilter={setFilter}
               txnsQuery={txnsQuery}
+              setTxns={setTxns}
             />
             <Button
               icon={<BiExport />}
               type="primary"
-              disabled={txnsQuery.isFetching || !transactions?.length}
-              onClick={() => exportData(transactions, "transactions")}
+              disabled={
+                txnsQuery.isFetching ||
+                !txns?.length ||
+                txnsQuery.data?.meta?.pagination?.next?.page ||
+                txns.length < txnsQuery.data?.meta.total
+              }
+              onClick={() => exportData(txns, "transactions")}
               title="Export"
             >
               Export
@@ -178,8 +211,13 @@ function TransactionReport() {
             <Button
               icon={<FiRefreshCw />}
               type="primary"
-              disabled={txnsQuery.isFetching}
-              onClick={() => txnsQuery.refetch()}
+              disabled={
+                txnsQuery.isFetching || txns.length < txnsQuery.data?.meta.total
+              }
+              onClick={() => {
+                setPage(0);
+                txnsQuery.refetch();
+              }}
               title="Refresh"
             >
               Refresh
@@ -187,10 +225,11 @@ function TransactionReport() {
           </Space>
         </Flex>
       )}
-      loading={txnsQuery.isLoading}
+      loading={page === 1 && txnsQuery.isLoading}
       rowHoverable
-      scroll={{ x: "max-content" }}
-      dataSource={transactions}
+      scroll={{ x: "max-content", y: "57vh" }}
+      pagination={false}
+      dataSource={txns}
       columns={columns}
       size="small"
       rowKey="_id"
