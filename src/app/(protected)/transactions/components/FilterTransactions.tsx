@@ -23,14 +23,10 @@ export default function FilterTransaction({
   txnsQuery,
   filter,
   setFilter,
-  setPage,
-  setTxns,
 }: {
   txnsQuery: any;
   filter: any;
   setFilter: any;
-  setPage: any;
-  setTxns: any;
 }) {
   const [open, setOpen] = useState(false);
   const { token } = theme.useToken();
@@ -66,10 +62,6 @@ export default function FilterTransaction({
     setFilter({ ...vals, dateTime: undefined });
 
     await new Promise((res) => setTimeout(() => res("done"), 1000));
-
-    setTxns([]);
-
-    setPage(1);
 
     txnsQuery.refetch(filter);
   };

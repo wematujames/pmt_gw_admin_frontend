@@ -4,10 +4,6 @@ import setAuthTokenHeader from "./utils/setAuthToken";
 export const getTransactions = async (_filter: any = {}) =>  {
   setAuthTokenHeader()
   
-  // await new Promise((res) => setTimeout(() => {
-  //   res("");
-  // }, 2000))
-  
   const filter = {} as any;
 
   Object.keys(_filter.filter).forEach((key: any) => {
@@ -22,17 +18,19 @@ export const getTransactions = async (_filter: any = {}) =>  {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      params: Object.assign(_filter.filter, {_page: _filter.pageParam})
+      params: Object.assign(_filter.filter, {_page: _filter.pageParam, _limit: _filter._limit})
     }
   );
 
   return { data: res.data.data, meta: res.data.meta };
 };
 
-export const exportTransactions = async (_filter: any = {}) =>  {
+export const exportTransactions = async (_filter: any = {}, setLoading: Function) =>  {
   setAuthTokenHeader()
-  
+
   try {
+    setLoading(true);
+
     // Make a GET request to the backend endpoint
     const response = await axios.get("/platform/transactions/export", {
       responseType: "blob", // Important: ensures the response is treated as binary data (Blob)
@@ -47,7 +45,7 @@ export const exportTransactions = async (_filter: any = {}) =>  {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "transactions.csv"); // Filename
+    link.setAttribute("download", "transactions.csv");
     document.body.appendChild(link);
     link.click();
 
@@ -55,9 +53,10 @@ export const exportTransactions = async (_filter: any = {}) =>  {
     if(link.parentNode) link.parentNode.removeChild(link);
     window.URL.revokeObjectURL(url);
   } catch (error) {
-    console.log(error)
     console.error("Error downloading CSV:", error);
     alert("Failed to download transactions. Please try again.");
+  }finally{
+    setLoading(false)
   }
 };
 

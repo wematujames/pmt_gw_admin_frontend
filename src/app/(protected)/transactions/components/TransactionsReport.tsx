@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   Space,
+  Spin,
   Table,
   TableColumnsType,
   Tag,
@@ -10,10 +11,10 @@ import {
   Typography,
 } from "antd";
 import TransactionDetail from "./TransactionDetails";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdNumbers } from "react-icons/md";
 import { exportTransactions, getTransactions } from "@/actions/transactions";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import moment from "moment";
 import { BiExport } from "react-icons/bi";
 import { getRecColor } from "@/utils/common";
@@ -22,7 +23,7 @@ import FilterTransaction from "./FilterTransactions";
 
 function TransactionReport() {
   const { token } = theme.useToken();
-
+  const [exporting, setExporting] = useState(false);
   const columns: TableColumnsType = [
     {
       title: "Action",
@@ -135,104 +136,89 @@ function TransactionReport() {
     },
   ];
 
-  const [txns, setTxns] = useState([] as any[]);
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+    total: 0,
+  });
 
   // "2024-08-01" //"2024-12-01"
-
   const [filter, setFilter] = useState({
-    startDate: moment("2024-08-01").startOf("day").toISOString(),
-    endDate: moment("2024-12-01").endOf("day").toISOString(),
+    startDate: moment().startOf("day").toISOString(),
+    endDate: moment().endOf("day").toISOString(),
   });
 
   const txnsQuery = useQuery({
-    queryKey: ["transactions", page],
-    queryFn: async () => {
-      if (page === 1) setTxns([]);
-
-      const res = await getTransactions({ pageParam: page, filter });
-
-      if (page === 1) setTxns(res.data);
-      else setTxns((prev) => prev.concat(res.data));
-
-      return res;
-    },
+    queryKey: ["transactions", pagination],
+    queryFn: async () =>
+      await getTransactions({
+        pageParam: pagination.current,
+        _limit: pagination.pageSize,
+        filter,
+      }),
+    staleTime: 100000,
+    placeholderData: keepPreviousData,
   });
 
-  useEffect(() => {
-    if (!txnsQuery.isFetching && txnsQuery.data?.meta?.pagination?.next?.page) {
-      setPage(txnsQuery.data?.meta?.pagination?.next?.page);
-    }
-  }, [txnsQuery.data, txnsQuery.isFetching]);
+  const handleTableChange = (newPagination: any) => {
+    setPagination({
+      current: newPagination.current,
+      pageSize: newPagination.pageSize,
+    } as any);
+  };
 
   return (
-    <Table
-      title={() => (
-        <Flex justify="space-between">
-          <Space style={{ fontSize: token.fontSizeHeading5 }}>
-            <MdNumbers size={token.fontSizeIcon} />
-            Count: {txns.length} / {txnsQuery.data?.meta?.total}
-          </Space>
+    <Spin spinning={txnsQuery.isLoading}>
+      <Table
+        title={() => (
+          <Flex justify="space-between">
+            <Space style={{ fontSize: token.fontSizeHeading5 }}>
+              <MdNumbers size={token.fontSizeIcon} />
+              Total : {txnsQuery.data?.meta?.total}
+            </Space>
 
-          {txnsQuery.isFetching && "Loading"}
-
-          <Space>
-            <FilterTransaction
-              filter={filter}
-              setPage={setPage}
-              setFilter={setFilter}
-              txnsQuery={txnsQuery}
-              setTxns={setTxns}
-            />
-            <Button
-              icon={<BiExport />}
-              type="primary"
-              onClick={() => exportTransactions(filter)}
-              title="Export"
-            >
-              Export
-            </Button>
-            {/* <Button
-              icon={<BiExport />}
-              type="primary"
-              disabled={
-                txnsQuery.isFetching ||
-                !txns?.length ||
-                txnsQuery.data?.meta?.pagination?.next?.page ||
-                txns.length < txnsQuery.data?.meta.total
-              }
-              onClick={() => exportData(txns, "transactions")}
-              title="Export"
-            >
-              Export
-            </Button> */}
-            <Button
-              icon={<FiRefreshCw />}
-              type="primary"
-              disabled={
-                txnsQuery.isFetching || txns.length < txnsQuery.data?.meta.total
-              }
-              onClick={() => {
-                setPage(1);
-                txnsQuery.refetch();
-              }}
-              title="Refresh"
-            >
-              Refresh
-            </Button>
-          </Space>
-        </Flex>
-      )}
-      loading={page === 1 && txnsQuery.isLoading}
-      rowHoverable
-      scroll={{ x: "max-content", y: "57vh" }}
-      pagination={false}
-      dataSource={txns}
-      columns={columns}
-      size="small"
-      rowKey="_id"
-    />
+            <Space>
+              <FilterTransaction
+                filter={filter}
+                setFilter={setFilter}
+                txnsQuery={txnsQuery}
+              />
+              <Button
+                title="Export"
+                icon={<BiExport />}
+                type="primary"
+                loading={exporting}
+                onClick={() => exportTransactions(filter, setExporting)}
+              >
+                Export
+              </Button>
+              <Button
+                title="Refresh"
+                icon={<FiRefreshCw />}
+                type="primary"
+                onClick={() => txnsQuery.refetch()}
+              >
+                Refresh
+              </Button>
+            </Space>
+          </Flex>
+        )}
+        loading={txnsQuery.isLoading}
+        rowHoverable
+        dataSource={txnsQuery.data?.data as any}
+        columns={columns}
+        size="small"
+        rowKey="_id"
+        onChange={handleTableChange}
+        pagination={{
+          current: pagination.current,
+          pageSize: pagination.pageSize,
+          total: txnsQuery.data?.meta.total,
+          onChange: (page, pageSize) =>
+            setPagination({ current: page, pageSize } as any),
+        }}
+      />
+    </Spin>
   );
 }
 
