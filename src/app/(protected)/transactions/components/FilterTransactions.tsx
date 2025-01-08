@@ -69,7 +69,7 @@ export default function FilterTransaction({
 
     setTxns([]);
 
-    setPage(0);
+    setPage(1);
 
     txnsQuery.refetch(filter);
   };

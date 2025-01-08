@@ -12,14 +12,13 @@ import {
 import TransactionDetail from "./TransactionDetails";
 import { useEffect, useState } from "react";
 import { MdNumbers } from "react-icons/md";
-import { getTransactions } from "@/actions/transactions";
+import { exportTransactions, getTransactions } from "@/actions/transactions";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { BiExport } from "react-icons/bi";
 import { getRecColor } from "@/utils/common";
 import { FiRefreshCw } from "react-icons/fi";
 import FilterTransaction from "./FilterTransactions";
-import exportData from "@/utils/exportData";
 
 function TransactionReport() {
   const { token } = theme.useToken();
@@ -137,43 +136,35 @@ function TransactionReport() {
   ];
 
   const [txns, setTxns] = useState([] as any[]);
-  const [page, setPage] = useState(0);
-  //"2024-08-01" //"2024-12-01"
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+
+  // "2024-08-01" //"2024-12-01"
+
   const [filter, setFilter] = useState({
-    startDate: moment().startOf("day").toISOString(),
-    endDate: moment().endOf("day").toISOString(),
+    startDate: moment("2024-08-01").startOf("day").toISOString(),
+    endDate: moment("2024-12-01").endOf("day").toISOString(),
   });
 
   const txnsQuery = useQuery({
     queryKey: ["transactions", page],
     queryFn: async () => {
-      if (page === 0 || page === 1) setTxns([]);
+      if (page === 1) setTxns([]);
 
       const res = await getTransactions({ pageParam: page, filter });
 
-      if (page === 0 || page === 1) {
-        setTxns(res.data);
-      } else setTxns((prev) => [...prev, ...res.data]);
+      if (page === 1) setTxns(res.data);
+      else setTxns((prev) => prev.concat(res.data));
 
       return res;
     },
-    // placeholderData: keepPreviousData,
   });
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (
-        !txnsQuery.isFetching &&
-        !txnsQuery.isPending &&
-        txnsQuery.data?.meta?.pagination?.next?.page &&
-        txns.length < txnsQuery.data?.meta.total
-      ) {
-        setPage(txnsQuery.data?.meta?.pagination?.next?.page);
-      }
-    }, 1500);
-
-    return () => clearTimeout(timeout);
-  }, [txnsQuery.data, txnsQuery.isPending, txnsQuery.isFetching]);
+    if (!txnsQuery.isFetching && txnsQuery.data?.meta?.pagination?.next?.page) {
+      setPage(txnsQuery.data?.meta?.pagination?.next?.page);
+    }
+  }, [txnsQuery.data, txnsQuery.isFetching]);
 
   return (
     <Table
@@ -181,7 +172,7 @@ function TransactionReport() {
         <Flex justify="space-between">
           <Space style={{ fontSize: token.fontSizeHeading5 }}>
             <MdNumbers size={token.fontSizeIcon} />
-            Count: {txns.length} / {txnsQuery.data?.meta.total}
+            Count: {txns.length} / {txnsQuery.data?.meta?.total}
           </Space>
 
           {txnsQuery.isFetching && "Loading"}
@@ -197,6 +188,14 @@ function TransactionReport() {
             <Button
               icon={<BiExport />}
               type="primary"
+              onClick={() => exportTransactions(filter)}
+              title="Export"
+            >
+              Export
+            </Button>
+            {/* <Button
+              icon={<BiExport />}
+              type="primary"
               disabled={
                 txnsQuery.isFetching ||
                 !txns?.length ||
@@ -207,7 +206,7 @@ function TransactionReport() {
               title="Export"
             >
               Export
-            </Button>
+            </Button> */}
             <Button
               icon={<FiRefreshCw />}
               type="primary"
@@ -215,7 +214,7 @@ function TransactionReport() {
                 txnsQuery.isFetching || txns.length < txnsQuery.data?.meta.total
               }
               onClick={() => {
-                setPage(0);
+                setPage(1);
                 txnsQuery.refetch();
               }}
               title="Refresh"
