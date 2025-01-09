@@ -33,9 +33,18 @@ export const exportTransactions = async (_filter: any = {}, setLoading: Function
 
     // Make a GET request to the backend endpoint
     const response = await axios.get("/platform/transactions/export", {
-      responseType: "blob", // Important: ensures the response is treated as binary data (Blob)
+      responseType: "blob",
       headers: { "Content-Type": "text/csv" },
-      params: _filter
+      params: _filter,
+      // onDownloadProgress: (progressEvent) => {    
+      //   const { loaded, total } = progressEvent;
+
+      //           if (total) {
+      //               const progressPercentage = Math.round((loaded / total) * 100);
+      //               console.log(`Download progress: ${progressPercentage}%`);
+      //               // You can update a progress bar or loader here
+      //           }
+      //       },
     });
 
     // Create a Blob from the response data
