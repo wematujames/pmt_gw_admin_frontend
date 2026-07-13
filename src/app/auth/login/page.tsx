@@ -1,24 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Flex, Divider, Card } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { Typography } from "antd";
 import styles from "./styles.module.css";
-import { useEffect } from "react";
 import NerasolLogin from "./AdminLogin";
-import NerasolSetAuthTokenHeader from "@/actions/utils/setAuthToken";
 
 export default function LoginPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (localStorage.getItem("nerasol-token")) {
-      router.push("/dashboard/financial");
-      NerasolSetAuthTokenHeader();
-    }
-  });
 
   return (
     <Flex

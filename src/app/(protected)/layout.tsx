@@ -9,11 +9,11 @@ import AppSideMenu from "./AppSideMenu";
 import { useLogout } from "@/hooks/useLogout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useMessage } from "@/hooks/useMessage";
-import { useNotification } from "@/hooks/useNotification";
 import useInactivityTimeout from "@/hooks/useInactivityTimeout";
+import withAuth from "./withAuth";
 const { Header, Content, Footer, Sider } = Layout;
 
-export default function ProtectedLayout({
+function ProtectedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -21,7 +21,6 @@ export default function ProtectedLayout({
   const { token } = theme.useToken();
   const logout = useLogout("nerasol");
   const { openMessage } = useMessage();
-  const { openNotification } = useNotification();
 
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -45,8 +44,8 @@ export default function ProtectedLayout({
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
-          onBreakpoint={(broken) => {}}
-          onCollapse={(collapsed, type) => {}}
+          onBreakpoint={(broken) => { }}
+          onCollapse={(collapsed, type) => { }}
           style={{ minHeight: "100vh" }}
         >
           <Flex style={{ width: "100%" }} justify="center" align="center">
@@ -85,3 +84,11 @@ export default function ProtectedLayout({
     </QueryClientProvider>
   );
 }
+
+function ProtectedRootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <ProtectedLayout>{children}</ProtectedLayout>
+  );
+}
+
+export default withAuth(ProtectedRootLayout);

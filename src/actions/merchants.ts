@@ -1,4 +1,5 @@
-import axios from "axios";
+import apiReq from "./utils/nerasikaAxios";
+
 import setAuthTokenHeader from "./utils/setAuthToken";
 
 export const getPlatformMerchants = async (_filter: any = {}) =>  {
@@ -10,7 +11,7 @@ export const getPlatformMerchants = async (_filter: any = {}) =>  {
     if (_filter[key]) filter[key] = _filter[key]
   });
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/merchants",
     { method: "GET", params: filter }
   );
@@ -21,7 +22,7 @@ export const getPlatformMerchants = async (_filter: any = {}) =>  {
 export const createMerchant = async (data: object = {}) =>  {
   setAuthTokenHeader()
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/merchants",
     { method: "POST", data }
   );
@@ -32,7 +33,7 @@ export const createMerchant = async (data: object = {}) =>  {
 export const updateMerchantConfig = async (configId: string, config: object = {}) =>  {
   setAuthTokenHeader()
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/merchantconfigs/" + configId,
     { method: "PUT", data: config }
   );
@@ -43,7 +44,7 @@ export const updateMerchantConfig = async (configId: string, config: object = {}
 export const updateMerchantStatus = async (merchantId: string, active: boolean) =>  {
   setAuthTokenHeader()
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/merchants/" + merchantId,
     { method: "PUT", data: { active } }
   );

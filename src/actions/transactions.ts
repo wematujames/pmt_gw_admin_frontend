@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiReq from "./utils/nerasikaAxios";
 import setAuthTokenHeader from "./utils/setAuthToken";
 
 export const getTransactions = async (_filter: any = {}) =>  {
@@ -10,7 +10,7 @@ export const getTransactions = async (_filter: any = {}) =>  {
     if (_filter.filter[key]) filter[key] = _filter.filter[key]
   });
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/transactions",
     {
       method: "GET",
@@ -32,7 +32,7 @@ export const exportTransactions = async (_filter: any = {}, setLoading: Function
     setLoading(true);
 
     // Make a GET request to the backend endpoint
-    const response = await axios.get("/platform/transactions/export", {
+    const response = await apiReq.get("/platform/transactions/export", {
       responseType: "blob",
       headers: { "Content-Type": "text/csv" },
       params: _filter,
@@ -72,7 +72,7 @@ export const exportTransactions = async (_filter: any = {}, setLoading: Function
 export const getTransaction = async (txnId: string) =>  {
   setAuthTokenHeader()
   
-  const res = await axios(
+  const res = await apiReq(
     `/platform/transactions/${txnId}`,
     {
       method: "GET",

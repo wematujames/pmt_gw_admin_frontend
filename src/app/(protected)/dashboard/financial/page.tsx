@@ -1,10 +1,7 @@
 "use client";
 import StatisticsCards from "./components/Statistics";
 import Jumbotron from "./components/Jumbotron";
-import { useAuth } from "../../../../hooks/useAuth";
-import { Suspense } from "react";
 import dynamic from "next/dynamic";
-import PageLoader from "../../PageLoader";
 import { useQuery } from "@tanstack/react-query";
 import { getTransactionsOverall } from "@/actions/summary";
 
@@ -18,7 +15,7 @@ const DisbursementsGrapgh = dynamic(
   { ssr: false }
 );
 
-function Dashboard() {
+export default function Dashboard() {
   const dashboardSummary = useQuery({
     queryKey: ["txns-overall"],
     queryFn: () => getTransactionsOverall(),
@@ -40,17 +37,5 @@ function Dashboard() {
         disbursmentsSummary={dashboardSummary.data?.disbursementSummary || {}}
       />
     </>
-  );
-}
-
-export default function DashboardSuspended() {
-  const authenticated = useAuth("nerasol");
-
-  if (!authenticated) return <PageLoader />;
-
-  return (
-    <Suspense>
-      <Dashboard />
-    </Suspense>
   );
 }

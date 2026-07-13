@@ -188,6 +188,7 @@ function TransactionReport() {
                 icon={<BiExport />}
                 type="primary"
                 loading={exporting}
+                disabled={exporting}
                 onClick={() => exportTransactions(filter, setExporting)}
               >
                 Export

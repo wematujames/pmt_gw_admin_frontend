@@ -21,7 +21,6 @@ function AdminTwoFAModal({
   const router = useRouter();
   const { openMessage } = useMessage();
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const nKey = "2faMsg";
 
   const login2faMutation = useMutation({
     mutationKey: ["update-user-email"],

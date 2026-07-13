@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiReq from "./utils/nerasikaAxios";
 import setAuthTokenHeader from "./utils/setAuthToken";
 
 export const getPlatformUsers = async (_filter: any = {}) =>  {
@@ -10,7 +10,7 @@ export const getPlatformUsers = async (_filter: any = {}) =>  {
     if (_filter[key]) filter[key] = _filter[key]
   });
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/users",
     {
       method: "GET",
@@ -28,7 +28,7 @@ export const getPlatformUsers = async (_filter: any = {}) =>  {
 export const getPlatformUser = async (userId: string) =>  {
   setAuthTokenHeader()
   
-  const res = await axios(
+  const res = await apiReq(
     "/platform/users/" + userId,
     { method: "GET" }
   );
@@ -39,7 +39,7 @@ export const getPlatformUser = async (userId: string) =>  {
 export const createUser = async (data: object = {}) =>  {
   setAuthTokenHeader()
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/users",
     {
       method: "POST",
@@ -57,7 +57,7 @@ export const createUser = async (data: object = {}) =>  {
 export const updateUserStatus = async (userId: string, active: boolean) =>  {
   setAuthTokenHeader()
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/users/" + userId,
     { method: "PUT", data: { active } }
   );

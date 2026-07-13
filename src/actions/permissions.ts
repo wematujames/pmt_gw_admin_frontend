@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiReq from "./utils/nerasikaAxios";
 import setAuthTokenHeader from "./utils/setAuthToken";
 
 export const getPlatformPermissions = async (_filter: any = {}) =>  {
@@ -10,7 +10,7 @@ export const getPlatformPermissions = async (_filter: any = {}) =>  {
     if (_filter[key]) filter[key] = _filter[key]
   });
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/permissions",
     {
       method: "GET",
@@ -29,7 +29,7 @@ export const getPlatformPermissions = async (_filter: any = {}) =>  {
 export const updateUserPermissions = async (userId: string, permissions: string[]) =>  {
   setAuthTokenHeader()
 
-  const res = await axios(
+  const res = await apiReq(
     "/platform/permissions/grant",
     {
       method: "PUT",
