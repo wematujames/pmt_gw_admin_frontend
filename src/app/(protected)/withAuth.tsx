@@ -20,7 +20,11 @@ export default function withAuth(Component: React.ComponentType<any>) {
 
     // Show spinner while checking auth status
     if (loading) {
-      return <Spin fullscreen size="large" tip="Verifying access..." />;
+      return (
+        <div className="flex h-screen w-screen flex-col items-center justify-center bg-[#EDF2EC] gap-4 overflow-hidden">
+          return <Spin fullscreen size="large" tip="Verifying access..." />
+        </div>
+      );
     }
 
     // If no user, return null (prevent content flash)

@@ -1,26 +1,24 @@
 "use client";
 
 import React from "react";
-import { Divider, Flex, Layout, theme } from "antd";
+import { Divider, Flex, Layout, Menu, theme } from "antd";
 import UserAvatar from "./user/components/Avatar";
 import Link from "next/link";
 import Image from "next/image";
-import AppSideMenu from "./AppSideMenu";
 import { useLogout } from "@/hooks/useLogout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useMessage } from "@/hooks/useMessage";
 import useInactivityTimeout from "@/hooks/useInactivityTimeout";
 import withAuth from "./withAuth";
+import sideMenuItems from "./sideMenuItems";
+import { usePathname } from "next/navigation";
 const { Header, Content, Footer, Sider } = Layout;
 
-function ProtectedLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+function ProtectedLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   const { token } = theme.useToken();
-  const logout = useLogout("nerasol");
+  const logout = useLogout();
   const { openMessage } = useMessage();
+  const pathname = usePathname();
 
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -40,27 +38,31 @@ function ProtectedLayout({
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout hasSider>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          onBreakpoint={(broken) => { }}
-          onCollapse={(collapsed, type) => { }}
-          style={{ minHeight: "100vh" }}
-        >
+      <Layout hasSider style={{ maxHeight: "100vh" }}>
+        <Sider breakpoint="lg" collapsedWidth="0">
           <Flex style={{ width: "100%" }} justify="center" align="center">
             <Link href="/">
               <Image
                 src="/nerasollogo.png"
                 alt="nerasol-logo"
                 width={180}
-                height={80}
+                height={60}
               />
             </Link>
           </Flex>
+
           <Divider style={{ margin: 0 }} />
-          <AppSideMenu />
+
+          <Menu
+            items={sideMenuItems}
+            theme="dark"
+            style={{ width: 200 }}
+            defaultOpenKeys={["dashboard"]}
+            selectedKeys={[pathname]}
+            mode="inline"
+          />
         </Sider>
+
         <Layout>
           <Header
             style={{
@@ -72,9 +74,11 @@ function ProtectedLayout({
           >
             <UserAvatar />
           </Header>
-          <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+
+          <Content style={{ overflow: "scroll", maxHeight: "100vh" }}>
             {children}
           </Content>
+
           <Footer style={{ textAlign: "center" }}>
             Nerasika ©{new Date().getFullYear()} Created by NeraSol Ghana
             Limited

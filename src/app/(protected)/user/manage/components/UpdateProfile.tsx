@@ -1,9 +1,10 @@
 "use client";
 
-import { loadUser, updateUser } from "@/actions/auth";
+import { updateUser } from "@/actions/auth";
 import { useMessage } from "@/hooks/useMessage";
+import { useUser } from "@/hooks/useUser";
 import { removeUndefinedValues } from "@/utils/common";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Col, Flex, Form, Input, Row } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { AxiosError } from "axios";
@@ -12,11 +13,7 @@ function UpdateProfile() {
   const queryClient = useQueryClient();
   const { openMessage } = useMessage();
   const [form] = useForm();
-
-  const userQuery = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => loadUser(),
-  });
+  const { user } = useUser();
 
   const updateUserMutation = useMutation({
     mutationKey: ["update-current-user"],
@@ -45,8 +42,8 @@ function UpdateProfile() {
         form={form}
         requiredMark
         initialValues={{
-          fName: userQuery.data?.person?.fName,
-          lName: userQuery.data?.person?.lName,
+          fName: user?.person?.fName,
+          lName: user?.person?.lName,
           password: "",
         }}
         layout="vertical"

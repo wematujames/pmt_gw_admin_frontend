@@ -12,11 +12,7 @@ export default function Providers({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: { refetchOnWindowFocus: false },
-        },
-    });
+    const queryClient = new QueryClient();
 
     return (
         <NotificationProvider>

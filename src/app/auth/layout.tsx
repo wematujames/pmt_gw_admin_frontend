@@ -22,7 +22,7 @@ export default function ProtectLayout({
   if (loading || user) {
     return (
       <div className="flex h-screen w-screen flex-col items-center justify-center bg-[#EDF2EC] gap-4 overflow-hidden">
-        return <Spin fullscreen size="large" tip="Verifying access..." />;
+        <Spin fullscreen size="large" tip="Verifying access..." />
       </div>
     );
   }

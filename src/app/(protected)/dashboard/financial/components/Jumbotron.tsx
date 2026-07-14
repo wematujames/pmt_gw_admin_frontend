@@ -1,15 +1,10 @@
 "use client";
-import { loadUser } from "@/actions/auth";
-import { useQuery } from "@tanstack/react-query";
+import { useUser } from "@/hooks/useUser";
 import { Card, theme, Typography } from "antd";
 
 const Jumbotron = () => {
   const { token } = theme.useToken();
-
-  const userQuery = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => loadUser(),
-  });
+  const { user, loading } = useUser()
 
   function getGreeting() {
     const now = new Date();
@@ -22,11 +17,12 @@ const Jumbotron = () => {
 
   return (
     <Card
-      bordered
+      loading={loading}
+      variant="outlined"
       style={{ marginTop: token.marginXXS, marginBottom: token.marginSM }}
     >
       <Typography.Title style={{ fontSize: token.fontSizeHeading2 }}>
-        {getGreeting()} {userQuery.data?.person?.fName}
+        {getGreeting()} {user?.person?.fName}
       </Typography.Title>
       <p style={{ fontSize: token.fontSize, color: token.colorBgMask }}>
         {"Here's"} your financial overview

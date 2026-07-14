@@ -1,9 +1,10 @@
 "use client";
 
-import { loadUser, updateUserEmail } from "@/actions/auth";
+import { updateUserEmail } from "@/actions/auth";
 import { useMessage } from "@/hooks/useMessage";
+import { useUser } from "@/hooks/useUser";
 import { removeUndefinedValues } from "@/utils/common";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Col, Flex, Form, Input, Row } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { AxiosError } from "axios";
@@ -12,11 +13,7 @@ function UpdateEmail() {
   const { openMessage } = useMessage();
   const [form] = useForm();
   const queryClient = useQueryClient();
-
-  const userQuery = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => loadUser(),
-  });
+  const { user } = useUser()
 
   const updateEmailMutation = useMutation({
     mutationKey: ["update-current-user-email"],
@@ -43,7 +40,7 @@ function UpdateEmail() {
       <Form
         form={form}
         initialValues={{
-          currentEmail: userQuery.data?.email,
+          currentEmail: user?.email,
           newEmail: "",
           password: "",
         }}
@@ -57,7 +54,7 @@ function UpdateEmail() {
               <Input
                 readOnly
                 type="email"
-                addonAfter={"V: " + userQuery.data?.emailVerified}
+                addonAfter={"V: " + user?.emailVerified}
               />
             </Form.Item>
           </Col>

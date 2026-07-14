@@ -1,7 +1,7 @@
 import { logoutUser } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 
-export function useLogout(type: string) {
+export function useLogout() {
     const router = useRouter();
 
     const logout = async () => {
@@ -10,7 +10,7 @@ export function useLogout(type: string) {
         } catch (err) {
             
         } finally {
-            localStorage.removeItem(`nerasol-token`);
+            localStorage.removeItem(process.env.NEXT_PUBLIC_API_AUTH_TOKEN!);
             router.push(`/auth/login`);
         }
     };

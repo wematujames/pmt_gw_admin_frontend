@@ -1,9 +1,10 @@
 "use client";
 
-import { loadUser, updateUserMobile } from "@/actions/auth";
+import { updateUserMobile } from "@/actions/auth";
 import { useMessage } from "@/hooks/useMessage";
+import { useUser } from "@/hooks/useUser";
 import { removeUndefinedValues } from "@/utils/common";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Col, Flex, Form, Input, Row } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { AxiosError } from "axios";
@@ -12,11 +13,7 @@ function UpdatePhone() {
   const queryClient = useQueryClient();
   const { openMessage } = useMessage();
   const [form] = useForm();
-
-  const userQuery = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => loadUser(),
-  });
+  const { user } = useUser();
 
   const updateUserMobileMutation = useMutation({
     mutationKey: ["update-user-phone"],
@@ -43,7 +40,7 @@ function UpdatePhone() {
       <Form
         form={form}
         initialValues={{
-          currentPhone: userQuery.data?.phone,
+          currentPhone: user?.phone,
           newPhone: "",
           password: "",
         }}
@@ -57,7 +54,7 @@ function UpdatePhone() {
               <Input
                 readOnly
                 type="text"
-                addonAfter={"V: " + userQuery.data?.phoneVerified}
+                addonAfter={"V: " + user?.phoneVerified}
               />
             </Form.Item>
           </Col>
