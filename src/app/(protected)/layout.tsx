@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
-import { Divider, Flex, Layout, Menu, theme } from "antd";
+import React, { useState } from "react";
+import { Divider, Flex, Layout, Menu, theme, Button } from "antd";
+import { MenuFoldOutlined, MenuUnfoldOutlined, CloseOutlined } from "@ant-design/icons";
 import UserAvatar from "./user/components/Avatar";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,11 +13,13 @@ import useInactivityTimeout from "@/hooks/useInactivityTimeout";
 import withAuth from "./withAuth";
 import sideMenuItems from "./sideMenuItems";
 import { usePathname } from "next/navigation";
+
 const { Header, Content, Footer, Sider } = Layout;
 
-function ProtectedLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
+function ProtectedLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const [collapsed, setCollapsed] = useState(false);
   const { token } = theme.useToken();
-  const logout = useLogout();
+  const { logout } = useLogout();
   const { openMessage } = useMessage();
   const pathname = usePathname();
 
@@ -38,50 +41,81 @@ function ProtectedLayout({ children, }: Readonly<{ children: React.ReactNode; }>
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout hasSider style={{ maxHeight: "100vh" }}>
-        <Sider breakpoint="lg" collapsedWidth="0">
-          <Flex style={{ width: "100%" }} justify="center" align="center">
+      <Layout hasSider style={{ maxHeight: "100vh", overflow: "hidden" }}>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+          breakpoint="lg"
+          collapsedWidth="0"
+          width={200}
+          className={`
+            max-lg:!absolute max-lg:!z-[1000] max-lg:!h-screen transition-all duration-300
+            ${!collapsed ? "max-lg:!w-full max-lg:!max-w-full max-lg:!min-w-full max-lg:!flex-[0_0_100%]" : ""}
+          `}
+        >
+          <Flex style={{ width: "100%", height: "64px" }} justify="space-between" align="center" className="px-4">
             <Link href="/">
-              <Image
-                src="/nerasollogo.png"
-                alt="nerasol-logo"
-                width={180}
-                height={60}
-              />
+              {!collapsed && (
+                <Image
+                  src="/nerasollogo.png"
+                  alt="nerasol-logo"
+                  width={140}
+                  height={45}
+                />
+              )}
             </Link>
+
+            {/* This Close button only appears on mobile screens so users can exit the full-screen menu */}
+            {!collapsed && (
+              <Button
+                type="text"
+                icon={<CloseOutlined style={{ color: "white", fontSize: "18px" }} />}
+                onClick={() => setCollapsed(true)}
+                className="lg:hidden"
+              />
+            )}
           </Flex>
 
-          <Divider style={{ margin: 0 }} />
+          <Divider style={{ margin: 0, borderColor: "rgba(255,255,255,0.1)" }} />
 
           <Menu
             items={sideMenuItems}
             theme="dark"
-            style={{ width: 200 }}
+            style={{ width: "100%" }}
             defaultOpenKeys={["dashboard"]}
             selectedKeys={[pathname]}
             mode="inline"
+            onClick={() => {
+              // Automatically close the full-screen sidebar on mobile when a user clicks a menu link
+              if (window.innerWidth < 1024) {
+                setCollapsed(true);
+              }
+            }}
           />
         </Sider>
 
-        <Layout>
+        <Layout className="relative">
           <Header
-            style={{
-              padding: 0,
-              background: token.colorBgContainer,
-              paddingRight: token.paddingMD,
-              textAlign: "right",
-            }}
+            className="flex justify-between items-center px-4 p-0 shadow-sm relative z-10"
+            style={{ background: token.colorBgContainer, paddingLeft: collapsed ? "50px" : 0, }}
           >
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{ fontSize: "16px", width: 64, height: 64, }}
+            />
             <UserAvatar />
           </Header>
 
-          <Content style={{ overflow: "scroll", maxHeight: "100vh" }}>
+          <Content className="h-[calc(100vh-64px-64px)] p-5 overflow-y-auto bg-gray-50">
             {children}
           </Content>
 
-          <Footer style={{ textAlign: "center" }}>
-            Nerasika ©{new Date().getFullYear()} Created by NeraSol Ghana
-            Limited
+          <Footer style={{ textAlign: "center", height: "64px", padding: token.paddingXXS }}>
+            Nerasika ©{new Date().getFullYear()} Created by NeraSol Ghana Limited
           </Footer>
         </Layout>
       </Layout>
@@ -90,9 +124,7 @@ function ProtectedLayout({ children, }: Readonly<{ children: React.ReactNode; }>
 }
 
 function ProtectedRootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <ProtectedLayout>{children}</ProtectedLayout>
-  );
+  return <ProtectedLayout>{children}</ProtectedLayout>;
 }
 
 export default withAuth(ProtectedRootLayout);

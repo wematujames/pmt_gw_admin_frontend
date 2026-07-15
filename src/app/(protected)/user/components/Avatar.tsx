@@ -12,7 +12,7 @@ const { useToken } = theme;
 const UserAvatar = () => {
   const { token } = useToken();
   const { user, loading } = useUser()
-  const logout = useLogout();
+  const { logout } = useLogout();
   const { openMessage } = useMessage();
 
   const items = [

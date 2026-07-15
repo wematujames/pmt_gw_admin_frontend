@@ -93,10 +93,7 @@ export const enable2Fa = async ( verficationCode: string) =>  {
 };
 
 export const logoutUser = async () =>  {
-
   const res = await apiReq.get("/platform/auth/logout");
-
-  localStorage.removeItem(`nerasol-token`);
   
   return res.data;
 };

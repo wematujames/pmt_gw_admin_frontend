@@ -5,12 +5,12 @@ import { Spin } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-export default function ProtectLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { user, loading, error } = useUser();
+  const { user, loading } = useUser();
   const router = useRouter();
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import { useForm } from "antd/es/form/Form";
 import { AxiosError } from "axios";
 
 function TwoFactorAuth() {
-  const logout = useLogout();
+  const { logout } = useLogout();
   const { openMessage } = useMessage();
   const queryClient = useQueryClient();
   const [form] = useForm();

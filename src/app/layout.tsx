@@ -1,4 +1,6 @@
 import { montserrat } from "@/fonts/fonts";
+// Suppress TS error for side-effect CSS import when no .d.ts is present
+// @ts-ignore
 import "./globals.css";
 import Providers from "./providers";
 

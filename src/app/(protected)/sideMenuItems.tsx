@@ -36,7 +36,7 @@ const sideMenuItems = [
   },
   {
     type: "group",
-    key: "/statements",
+    key: "/accounts",
     label: <Flex align="center" gap={5}> <BookOutlined /> Statements </Flex>,
     icon: <BookOutlined />,
     children: [
