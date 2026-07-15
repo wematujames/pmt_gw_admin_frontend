@@ -13,12 +13,13 @@ import useInactivityTimeout from "@/hooks/useInactivityTimeout";
 import withAuth from "./withAuth";
 import sideMenuItems from "./sideMenuItems";
 import { usePathname } from "next/navigation";
-
+import { getGreeting } from "@/utils/common";
+import { useUser } from "@/hooks/useUser";
 const { Header, Content, Footer, Sider } = Layout;
-
 function ProtectedLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const [collapsed, setCollapsed] = useState(false);
   const { token } = theme.useToken();
+  const { user } = useUser()
   const { logout } = useLogout();
   const { openMessage } = useMessage();
   const pathname = usePathname();
@@ -99,14 +100,27 @@ function ProtectedLayout({ children }: Readonly<{ children: React.ReactNode }>) 
         <Layout className="relative">
           <Header
             className="flex justify-between items-center px-4 p-0 shadow-sm relative z-10"
-            style={{ background: token.colorBgContainer, paddingLeft: collapsed ? "50px" : 0, }}
+            style={{
+              background: token.colorBgContainer,
+              paddingLeft: collapsed ? "50px" : 0,
+            }}
           >
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{ fontSize: "16px", width: 64, height: 64, }}
-            />
+            {/* Left Side: Collapse Button + Greeting */}
+            <div className="flex items-center">
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                style={{ fontSize: "16px", width: 64, height: 64 }}
+              />
+
+              {/* The Greeting (Hidden on extra-small mobile screens to save space) */}
+              <div className="hidden sm:inline-block ml-2 text-base text-gray-500">
+                {getGreeting()}, <span className="font-semibold text-gray-800">{user?.person?.fName || "User"}</span>
+              </div>
+            </div>
+
+            {/* Right Side: Avatar */}
             <UserAvatar />
           </Header>
 
@@ -114,7 +128,7 @@ function ProtectedLayout({ children }: Readonly<{ children: React.ReactNode }>) 
             {children}
           </Content>
 
-          <Footer style={{ textAlign: "center", height: "64px", padding: token.paddingXXS }}>
+          <Footer style={{ textAlign: "center", padding: 0 }}>
             Nerasika ©{new Date().getFullYear()} Created by NeraSol Ghana Limited
           </Footer>
         </Layout>

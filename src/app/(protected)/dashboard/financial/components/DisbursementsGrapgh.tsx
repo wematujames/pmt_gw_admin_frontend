@@ -1,44 +1,51 @@
 "use client";
 import { Line } from "@ant-design/plots";
-import { Card, Spin, theme } from "antd";
+import { Spin } from "antd";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import NetworkStats from "./NetworkTnxStats";
 import SectionHeader from "../../../../../components/SectionHeader";
 
-export default function DisbursementsGrapgh({
-  disbursmentsSummary,
+export default function DisbursementsGraph({
+  disbursementsSummary, // Fixed spelling prop
   loading,
 }: {
   loading: boolean;
-  disbursmentsSummary: any;
+  disbursementsSummary: any;
 }) {
-  const { token } = theme.useToken();
-
-  const graphData = disbursmentsSummary.graph || [];
-  const networks = disbursmentsSummary.networks || [];
+  // Safe fallbacks
+  const graphData = disbursementsSummary?.graph || [];
+  const networks = disbursementsSummary?.networks || [];
 
   return (
-    <Card style={{ marginTop: token.marginMD }}>
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+
+      {/* 1. Unified Header */}
       <SectionHeader
         leadText="Disbursements Overview"
         subText="Based on data from the past 7 days"
         icon={<BiMoneyWithdraw />}
       />
 
+      {/* 2. Unified Network Stats Pill Grid */}
       <NetworkStats stats={networks} loading={loading} />
 
-      <Line
-        data={graphData}
-        loading={loading}
-        loadingTemplate={<Spin>Loading</Spin>}
-        height={250}
-        xField="day"
-        yField="total"
-        colorField={token["green-5"]}
-        style={{ lineWidth: 2 }}
-        interaction={{ tooltip: { marker: false } }}
-        point={{ shapeField: "circle", sizeField: 4 }}
-      />
-    </Card>
+      {/* 3. The Graph */}
+      <div className="mt-6">
+        <Line
+          data={graphData}
+          loading={loading}
+          loadingTemplate={<Spin size="large" className="mt-10" />}
+          height={250}
+          xField="day"
+          yField="total"
+          // Changed from green-5 to your primary brand color to differentiate from Collections
+          colorField="#142868"
+          style={{ lineWidth: 3 }}
+          interaction={{ tooltip: { marker: false } }}
+          point={{ shapeField: "circle", sizeField: 4 }}
+        />
+      </div>
+
+    </div>
   );
 }

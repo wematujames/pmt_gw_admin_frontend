@@ -1,5 +1,5 @@
 "use client";
-import { Card, Spin, theme } from "antd";
+import { Spin } from "antd";
 import { Line } from "@ant-design/plots";
 import NetworkStats from "./NetworkTnxStats";
 import SectionHeader from "../../../../../components/SectionHeader";
@@ -12,13 +12,14 @@ export default function CollectionsGrapgh({
   loading: boolean;
   collectionsSummary: any;
 }) {
-  const { token } = theme.useToken();
-
+  // Safe fallbacks
   const graphData = collectionsSummary?.graph || [];
   const networks = collectionsSummary?.networks || [];
 
   return (
-    <Card style={{ marginTop: token.marginMD }}>
+    // Replaced <Card> with the unified Tailwind container
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+
       <SectionHeader
         leadText="Collections Overview"
         subText="Based on data from the past 7 days"
@@ -27,18 +28,20 @@ export default function CollectionsGrapgh({
 
       <NetworkStats stats={networks} loading={loading} />
 
-      <Line
-        data={graphData}
-        loadingTemplate={<Spin>Loading</Spin>}
-        loading={loading}
-        height={250}
-        xField="day"
-        yField="total"
-        colorField={token["green-5"]}
-        style={{ lineWidth: 2 }}
-        interaction={{ tooltip: { marker: false } }}
-        point={{ shapeField: "circle", sizeField: 3 }}
-      />
-    </Card>
+      <div className="mt-6">
+        <Line
+          data={graphData}
+          loadingTemplate={<Spin size="large" className="mt-10" />}
+          loading={loading}
+          height={250}
+          xField="day"
+          yField="total"
+          colorField="#10B981"
+          style={{ lineWidth: 3 }}
+          interaction={{ tooltip: { marker: false } }}
+          point={{ shapeField: "circle", sizeField: 4 }}
+        />
+      </div>
+    </div>
   );
 }

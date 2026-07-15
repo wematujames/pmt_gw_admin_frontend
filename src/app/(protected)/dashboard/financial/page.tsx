@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import { getTransactionsOverall } from "@/actions/summary";
 
+// Tip: Consider renaming these files in your directory to "Graph"
 const CollectionsGrapgh = dynamic(
   () => import("./components/CollectionsGrapgh"),
   { ssr: false }
@@ -21,21 +22,26 @@ export default function Dashboard() {
     queryFn: () => getTransactionsOverall(),
   });
 
+  const isInitialLoad = dashboardSummary.isLoading;
+
   return (
-    <>
+    <div className="flex flex-col gap-6 w-full pb-10">
       <Jumbotron />
+
       <StatisticsCards
+        loading={isInitialLoad}
         summaryStats={dashboardSummary.data?.stats || {}}
-        loading={dashboardSummary.isLoading}
       />
+
       <CollectionsGrapgh
-        loading={dashboardSummary.isFetching}
-        collectionsSummary={dashboardSummary.data?.collectionSummary || {}}
+        loading={isInitialLoad}
+        collectionsSummary={dashboardSummary.data?.collectionSummary || []}
       />
+
       <DisbursementsGrapgh
-        loading={dashboardSummary.isLoading}
-        disbursmentsSummary={dashboardSummary.data?.disbursementSummary || {}}
+        loading={isInitialLoad}
+        disbursementsSummary={dashboardSummary.data?.disbursementSummary || []}
       />
-    </>
+    </div>
   );
 }

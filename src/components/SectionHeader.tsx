@@ -1,8 +1,6 @@
 "use client";
-import { Space, theme, Typography } from "antd";
-import Meta from "antd/es/card/Meta";
 
-function SectionHeader({
+export default function SectionHeader({
   leadText,
   subText,
   icon,
@@ -11,30 +9,14 @@ function SectionHeader({
   subText: string;
   icon: JSX.Element;
 }) {
-  const { token } = theme.useToken();
-
   return (
-    <Meta
-      title={
-        <Space>
-          {icon}
-          <Typography.Title level={4}>{leadText}</Typography.Title>
-        </Space>
-      }
-      description={
-        <Typography.Paragraph
-          style={{
-            fontSize: token.fontSizeSM,
-            marginBottom: token.marginXS,
-            marginTop: -token.marginXS,
-            color: token.colorTextDescription,
-          }}
-        >
-          {subText}
-        </Typography.Paragraph>
-      }
-    />
+    <div className="flex flex-col mb-6">
+      <div className="flex items-center gap-2 text-gray-800">
+        {/* We use your primary brand color for the icon */}
+        <span className="text-xl text-[#142868] flex items-center">{icon}</span>
+        <h3 className="text-lg font-bold m-0 tracking-tight">{leadText}</h3>
+      </div>
+      <p className="text-sm text-gray-500 m-0 mt-1 font-medium">{subText}</p>
+    </div>
   );
 }
-
-export default SectionHeader;

@@ -5,7 +5,6 @@ const theme: ThemeConfig = {
     "colorPrimary": "#142868",
     "colorInfo": "#142868",
     "colorSuccess": "#7bc657",
-    "wireframe": true
   },
   "components": {
     "Table": {
@@ -32,8 +31,9 @@ const theme: ThemeConfig = {
       "fontWeight": 500,
       "defaultBorderColor": "rgb(20, 40, 104)",
       "defaultActiveColor": "rgb(20, 40, 104)",
-      "contentFontSizeSM": 14,
-      "contentFontSize": 12
+      // FIXED: Swapped so standard is 14px and small is 12px
+      "contentFontSize": 14, 
+      "contentFontSizeSM": 12
     },
     "Layout": {
       "bodyBg": "rgb(238, 240, 242)",
