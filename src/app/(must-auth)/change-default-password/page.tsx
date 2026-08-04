@@ -62,7 +62,7 @@ export default function ChangeDefaultPassword() {
         styles={{ body: { padding: "32px" } }}
       >
         <div className="text-center">
-          <Typography.Title level={4} className="!m-0 text-gray-800 tracking-tight">
+          <Typography.Title level={4} className="m-0! text-gray-800 tracking-tight">
             Update Default Password
           </Typography.Title>
           <p className="text-gray-500 mt-2 mb-0 text-sm">

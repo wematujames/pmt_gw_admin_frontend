@@ -14,7 +14,7 @@ const Jumbotron = () => {
         </div>
 
         <div>
-          <Typography.Title level={3} className="!m-0 text-gray-800 tracking-tight">
+          <Typography.Title level={3} className="m-0! text-gray-800 tracking-tight">
             Dashboard Overview
           </Typography.Title>
           <p className="text-gray-500 text-sm mt-1 mb-0 font-medium">

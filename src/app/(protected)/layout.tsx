@@ -53,8 +53,8 @@ function ProtectedLayout({ children, sideMenuItems }: Readonly<{ children: React
           collapsedWidth="0"
           width={200}
           className={`
-            max-lg:!absolute max-lg:!z-[1000] max-lg:!h-screen transition-all duration-300
-            ${!collapsed ? "max-lg:!w-full max-lg:!max-w-full max-lg:!min-w-full max-lg:!flex-[0_0_100%]" : ""}
+            max-lg:absolute! max-lg:z-1000! max-lg:h-screen! transition-all duration-300
+            ${!collapsed ? "max-lg:w-full! max-lg:max-w-full! max-lg:min-w-full! max-lg:flex-[0_0_100%]!" : ""}
           `}
         >
           <Flex style={{ width: "100%", height: "64px" }} justify="space-between" align="center" className="px-4">
