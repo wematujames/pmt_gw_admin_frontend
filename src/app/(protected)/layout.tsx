@@ -10,13 +10,14 @@ import { useLogout } from "@/hooks/useLogout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useMessage } from "@/hooks/useMessage";
 import useInactivityTimeout from "@/hooks/useInactivityTimeout";
-import withAuth from "./withAuth";
-import sideMenuItems from "./sideMenuItems";
+import withAuth from "../../components/routing/withAuth";
 import { usePathname } from "next/navigation";
 import { getGreeting } from "@/utils/common";
 import { useUser } from "@/hooks/useUser";
+import sideMenuItems from "./sideMenuItems";
 const { Header, Content, Footer, Sider } = Layout;
-function ProtectedLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+
+function ProtectedLayout({ children, sideMenuItems }: Readonly<{ children: React.ReactNode, sideMenuItems: any[] }>) {
   const [collapsed, setCollapsed] = useState(false);
   const { token } = theme.useToken();
   const { user } = useUser()
@@ -138,7 +139,7 @@ function ProtectedLayout({ children }: Readonly<{ children: React.ReactNode }>) 
 }
 
 function ProtectedRootLayout({ children }: { children: React.ReactNode }) {
-  return <ProtectedLayout>{children}</ProtectedLayout>;
+  return <ProtectedLayout sideMenuItems={sideMenuItems}>{children}</ProtectedLayout>;
 }
 
 export default withAuth(ProtectedRootLayout);

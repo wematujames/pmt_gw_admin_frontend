@@ -2,8 +2,9 @@
 import { Spin } from "antd";
 import { Line } from "@ant-design/plots";
 import NetworkStats from "./NetworkTnxStats";
-import SectionHeader from "../../../../../components/SectionHeader";
+
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import SectionHeader from "@/components/SectionHeader";
 
 export default function CollectionsGrapgh({
   collectionsSummary,

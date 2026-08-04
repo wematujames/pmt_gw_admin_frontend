@@ -3,7 +3,7 @@ import { Line } from "@ant-design/plots";
 import { Spin } from "antd";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import NetworkStats from "./NetworkTnxStats";
-import SectionHeader from "../../../../../components/SectionHeader";
+import SectionHeader from "@/components/SectionHeader";
 
 export default function DisbursementsGraph({
   disbursementsSummary, // Fixed spelling prop

@@ -35,7 +35,7 @@ const UserAvatar = () => {
       key: "4",
       danger: true,
       icon: <LogoutOutlined />,
-      label: <a onClick={logout}>Logout</a>,
+      label: <a onClick={() => logout()}>Logout</a>,
     },
   ];
 
