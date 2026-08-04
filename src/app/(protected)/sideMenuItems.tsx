@@ -23,10 +23,10 @@ const sideMenuItems = [
     key: "/transactions",
     label: <Flex align="center" gap={5}> <SwapOutlined /> Transactions </Flex>,
     children: [
-      {
-        key: "/transactions/overview",
-        label: <Link href="/transactions/overview"> - Overview</Link>,
-      },
+      // {
+      //   key: "/transactions/overview",
+      //   label: <Link href="/transactions/overview"> - Overview</Link>,
+      // },
       {
         key: "/transactions/view",
         label: <Link href="/transactions/view"> - Report</Link>,
@@ -38,10 +38,10 @@ const sideMenuItems = [
     key: "/directdebit",
     label: <Flex align="center" gap={5}> <GoldenFilled /> Direct Debit </Flex>,
     children: [
-      {
-        key: "/directdebit/overview",
-        label: <Link href="/transactions/overview"> - Overview</Link>,
-      },
+      // {
+      //   key: "/directdebit/overview",
+      //   label: <Link href="/transactions/overview"> - Overview</Link>,
+      // },
       {
         key: "/directdebit/view",
         label: <Link href="/directdebits/view"> - Report</Link>,
