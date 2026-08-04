@@ -9,7 +9,6 @@ import Image from "next/image";
 import { useLogout } from "@/hooks/useLogout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useMessage } from "@/hooks/useMessage";
-import useInactivityTimeout from "@/hooks/useInactivityTimeout";
 import withAuth from "../../components/routing/withAuth";
 import { usePathname } from "next/navigation";
 import { getGreeting } from "@/utils/common";
@@ -38,8 +37,8 @@ function ProtectedLayout({ children, sideMenuItems }: Readonly<{ children: React
       },
     },
   });
-
-  useInactivityTimeout(logout);
+  //todo: Uncomment the line below to enable automatic logout after inactivity
+  // useInactivityTimeout(logout);
 
   return (
     <QueryClientProvider client={queryClient}>
