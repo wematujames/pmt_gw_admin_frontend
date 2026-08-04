@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card } from "antd";
 import LoginForm from "./LoginForm";
 import MfaSelector from "./2fa/MfaSelector";
-import SmsVerification from "./2fa/smsVerification";
+import SmsVerification from "./2fa/SmsVerification";
 import AuthenticatorVerification from "./2fa/AuthenticatorVerification";
 
 export type MfaMethod = "sms" | "authenticator";
@@ -47,7 +47,7 @@ export default function LoginPage() {
       </Link>
     </div>
 
-      <Card className="w-full max-w-md shadow-lg rounded-2xl border-none overflow-hidden" bodyStyle={{ padding: "32px" }}>
+      <Card className="w-full max-w-md shadow-lg rounded-2xl border-none overflow-hidden" styles={{ body: { padding: "32px" } }}>
 
         {/* Step 1: Initial Login */}
         {step === "login" && (
