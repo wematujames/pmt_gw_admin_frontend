@@ -6,10 +6,12 @@ import { useMessage } from "@/hooks/useMessage";
 import { AxiosError } from "axios";
 import { verifyUserEmail } from "@/actions/auth";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button, Result } from "antd";
+import { Card, Result, Spin, Button } from "antd";
+import Image from "next/image";
+import Link from "next/link";
 import VerifyEmailFailed from "./Failed";
 import EmailVerificationSuccess from "./Success";
-import styles from "../../../utility.module.css";
+
 const VerifyEmail: React.FC = () => {
   const { openMessage } = useMessage();
   const searchParams = useSearchParams();
@@ -31,25 +33,51 @@ const VerifyEmail: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
-  if (verifyEmailMutation.isPending) {
-    return <>Verifying Email...Please wait</>;
-  }
-
-  if (verifyEmailMutation.isError) return <VerifyEmailFailed />;
-
-  if (verifyEmailMutation.isSuccess) return <EmailVerificationSuccess />;
-
   return (
-    <Result
-      className={styles.fscontainer}
-      status="warning"
-      title="Sorry, there was a problem."
-      extra={
-        <Button key="console" onClick={router.refresh}>
-          Try Again
-        </Button>
-      }
-    />
+    <div className="w-full flex flex-col items-center">
+      {/* Logo placed outside the card to match the layout */}
+      <div className="mb-8">
+        <Link href="/">
+          <Image
+            src="/nerasollogo.png"
+            alt="nerasol-logo"
+            width={180}
+            height={60}
+            className="object-contain"
+          />
+        </Link>
+      </div>
+
+      <Card
+        className="w-full max-w-md shadow-lg rounded-2xl border-none overflow-hidden"
+        styles={{ body: { padding: "32px" } }}
+      >
+        {verifyEmailMutation.isPending && (
+          <div className="flex flex-col items-center justify-center py-10">
+            <Spin size="large" />
+            <p className="mt-6 text-gray-500 font-medium">Verifying your email...</p>
+          </div>
+        )}
+
+        {verifyEmailMutation.isError && <VerifyEmailFailed />}
+
+        {verifyEmailMutation.isSuccess && <EmailVerificationSuccess />}
+
+        {/* Fallback if no token is present in the URL */}
+        {!token && !verifyEmailMutation.isPending && (
+          <Result
+            status="warning"
+            title="Invalid Link"
+            subTitle="No verification token was found in the URL."
+            extra={
+              <Button type="primary" onClick={() => router.push("/auth/login")}>
+                Go to Sign In
+              </Button>
+            }
+          />
+        )}
+      </Card>
+    </div>
   );
 };
 

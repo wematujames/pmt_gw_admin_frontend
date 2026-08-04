@@ -1,23 +1,22 @@
 "use client";
+
 import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { LockOutlined } from "@ant-design/icons";
+import { LockOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./styles.module.css";
 import { useMutation } from "@tanstack/react-query";
 import { ResetPasswordData } from "@/types/types";
 import { resetPassword } from "@/actions/auth";
 import { AxiosError } from "axios";
-import { Form, Input, Button, Flex, Divider, Card, Typography } from "antd";
+import { Form, Input, Button, Divider, Card, Typography } from "antd";
 import { useMessage } from "@/hooks/useMessage";
 
-const { Title } = Typography;
-
-function ResetPasswordPage() {
+function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { openMessage } = useMessage();
+  const [form] = Form.useForm();
 
   const onFinish = useMutation({
     mutationKey: ["reset-user-password"],
@@ -27,100 +26,130 @@ function ResetPasswordPage() {
         data.newPassword
       );
     },
-    onSuccess: (res) => {
-      openMessage("success", res.data.message);
+    onSuccess: (res: any) => {
+      openMessage("success", res.data?.message || "Password reset successfully");
       router.push("/auth/login");
     },
-    onError: (err: AxiosError<Error>) => {
+    onError: (err: AxiosError<{ message: string }>) => {
       openMessage("error", err.response?.data.message || err.message);
     },
   });
 
   return (
-    <Flex
-      className={styles.authLogin}
-      justify="center"
-      content="right"
-      vertical
-    >
-      <Flex style={{ width: "100%" }} justify="center" align="center" vertical>
+    <div className="w-full flex flex-col items-center">
+      {/* Logo placed outside the card to match the layout */}
+      <div className="mb-8">
         <Link href="/">
           <Image
             src="/nerasollogo.png"
-            alt="neraol-logo"
+            alt="nerasol-logo"
             width={180}
-            height={80}
+            height={60}
+            className="object-contain"
           />
         </Link>
-      </Flex>
-      <Flex style={{ width: "100%" }} justify="center" align="center" vertical>
-        <Card className={styles.loginForm}>
-          <Form
-            name="normal_login"
-            initialValues={{ remember: true }}
-            onFinish={(values) => onFinish.mutate(values)}
+      </div>
+
+      <Card
+        className="w-full max-w-md shadow-lg rounded-2xl border-none overflow-hidden"
+        styles={{ body: { padding: "32px" } }}
+      >
+        <div className="text-center">
+          <Typography.Title level={4} className="!m-0 text-gray-800">
+            Reset Your Password
+          </Typography.Title>
+          <p className="text-gray-500 mt-1 mb-0">
+            Please enter and confirm your new password below.
+          </p>
+        </div>
+
+        <Divider className="my-6" />
+
+        <Form
+          form={form}
+          name="reset_password"
+          layout="vertical"
+          onFinish={(values) => onFinish.mutate(values)}
+        >
+          <Form.Item
+            name="newPassword"
+            rules={[
+              {
+                required: true,
+                message: "Please input your new password!",
+              },
+              {
+                min: 6,
+                message: "Password must be at least 6 characters long",
+              }
+            ]}
           >
-            <Flex
-              style={{ width: "100%" }}
-              justify="center"
-              align="center"
-              vertical
-            >
-              <Title level={4}>Reset Your Password</Title>
-              <Divider style={{ marginTop: 10 }} />
-            </Flex>
+            {/* Upgraded to Input.Password so the text is obscured */}
+            <Input.Password
+              size="large"
+              prefix={<LockOutlined className="text-gray-400 mr-2" />}
+              placeholder="New Password"
+            />
+          </Form.Item>
 
-            <Form.Item
-              name="newPassword"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your new password!",
-                },
-              ]}
-            >
-              <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="New Password"
-              />
-            </Form.Item>
-            <Form.Item
-              name="confirmNewPassword"
-              rules={[
-                {
-                  required: true,
-                  message: "Please confirm your new password!",
-                },
-              ]}
-            >
-              <Input.Password
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Confirm Password"
-              />
-            </Form.Item>
+          <Form.Item
+            name="confirmNewPassword"
+            dependencies={['newPassword']}
+            rules={[
+              {
+                required: true,
+                message: "Please confirm your new password!",
+              },
 
-            <Form.Item>
-              <Button
-                style={{ width: "100%" }}
-                type="primary"
-                htmlType="submit"
-              >
-                Reset Password
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Flex>
-    </Flex>
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('newPassword') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('The two passwords do not match!'));
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              size="large"
+              prefix={<LockOutlined className="text-gray-400 mr-2" />}
+              placeholder="Confirm Password"
+            />
+          </Form.Item>
+
+          <Form.Item className="mt-6 mb-0">
+            <Button
+              size="large"
+              type="primary"
+              htmlType="submit"
+              className="w-full"
+              loading={onFinish.isPending}
+            >
+              Reset Password
+            </Button>
+          </Form.Item>
+        </Form>
+
+        {/* Back to Sign In Link */}
+        <div className="text-center mt-6">
+          <Link
+            href="/auth/login"
+            className="text-gray-500 hover:text-[#142868] transition-colors flex items-center justify-center gap-2 text-sm"
+          >
+            <ArrowLeftOutlined /> Back to Sign In
+          </Link>
+        </div>
+      </Card>
+    </div >
   );
 }
 
+// Suspense boundary kept intact for useSearchParams
 export default function ResetPasswordPageSuspended() {
   return (
     <Suspense>
-      <ResetPasswordPage />
+      <ResetPasswordForm />
     </Suspense>
   );
 }
