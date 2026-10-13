@@ -1,16 +1,19 @@
 "use client";
 import Link from "next/link";
-import { ImMeter } from "react-icons/im";
-import { GoldenFilled, SwapOutlined } from "@ant-design/icons";
-import { GiPlatform } from "react-icons/gi";
-import { MdOutlineAppRegistration } from "react-icons/md";
+import {
+  AppstoreAddOutlined,
+  ClusterOutlined,
+  DashboardOutlined,
+  GoldenFilled,
+  SwapOutlined,
+} from "@ant-design/icons";
 import { Flex } from "antd";
 
 const sideMenuItems = [
   {
     key: "/dashboard",
     type: "group",
-    label: <Flex align="center" gap={5}> <ImMeter /> Dashboards </Flex>,
+    label: <Flex align="center" gap={5}> <DashboardOutlined /> Dashboards </Flex>,
     children: [
       {
         key: "/dashboard/financial",
@@ -67,7 +70,7 @@ const sideMenuItems = [
   {
     type: "group",
     key: "/merchants",
-    label: <Flex align="center" gap={5}> <MdOutlineAppRegistration /> Operations </Flex>,
+    label: <Flex align="center" gap={5}> <AppstoreAddOutlined /> Operations </Flex>,
     children: [
       {
         key: "/merchants",
@@ -78,7 +81,7 @@ const sideMenuItems = [
   {
     type: "group",
     key: "/platform",
-    label: <Flex align="center" gap={5}> <GiPlatform /> Platform </Flex>,
+    label: <Flex align="center" gap={5}> <ClusterOutlined /> Platform </Flex>,
     children: [
       {
         key: "/users",

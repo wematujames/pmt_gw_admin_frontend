@@ -1,8 +1,7 @@
-import { LockOutlined, LogoutOutlined } from "@ant-design/icons";
+import { LockOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Card, Divider, Dropdown, Space, theme } from "antd";
 import { useLogout } from "../../../../hooks/useLogout";
 import React from "react";
-import { CgProfile } from "react-icons/cg";
 import Link from "next/link";
 import { useMessage } from "@/hooks/useMessage";
 import { useUser } from "@/hooks/useUser";
@@ -19,7 +18,7 @@ const UserAvatar = () => {
   const items = [
     {
       key: "1",
-      icon: <CgProfile />,
+      icon: <UserOutlined />,
       label: <Link href="/user/manage?tab=profile">View Profile</Link>,
     },
     {
