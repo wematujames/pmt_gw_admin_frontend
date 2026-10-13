@@ -40,3 +40,6 @@ env/
 *.tsbuildinfo
 next-env.d.ts
 .qodo
+
+# local test credentials
+blueprint/reference/testCreds.txt

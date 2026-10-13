@@ -51,9 +51,7 @@ configs, platform users, permissions, summaries). The auth token is kept in
 - Tailwind CSS 4 for layout utilities alongside antd
 - TanStack Query 5 for server state; axios client in `src/actions/utils/nerasikaAxios.ts`
 - dayjs for dates; json-2-csv / js-file-download for exports
-- npm (`package-lock.json`)
-
-> TODO (confirm): both `package-lock.json` and `yarn.lock` exist. Which package manager is canonical?
+- npm (`package-lock.json`); `yarn.lock` was removed 2026-10-13
 
 ## 6. Monetize - How will this make money?
 

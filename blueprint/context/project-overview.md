@@ -1,6 +1,6 @@
 # Nerasika Admin (v1) - Project Overview
 
-<!-- blueprint:source-hash c5b79099f0fb0e2fcc518b193eacff1276e05653d43a1435b367ae79f8dc4e1d -->
+<!-- blueprint:source-hash bfabbeea91455bec94875591adc2c00730fc9ce1671c8b28f01ebfde04adfc9c -->
 
 > Internal admin console for NeraSol Ghana's Nerasika payment gateway, locked to the frozen v1 backend API.
 
@@ -139,7 +139,6 @@ white rounded cards on a grey background, small antd tables with a navy header,
 
 > Resolve these in `project-plan.md`, then re-run `/overview`.
 
-- Which package manager is canonical? Both `package-lock.json` and `yarn.lock` exist; CI uses npm.
 - How do dev and production builds get different API URLs, given `ENVIRONMENT` is unused?
 - Are `ecosytem.config.js` (PM2 + `next start`), `start`, and `build:prod` legacy now that deployment is static export?
 - `/transactions/overview` exists as a stub but is in neither plan. Drop it, or add it to the build plan?
