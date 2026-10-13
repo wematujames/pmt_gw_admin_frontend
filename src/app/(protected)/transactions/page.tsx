@@ -138,7 +138,6 @@ export default function Transactions() {
           <Typography.Text>
             {record.processorTerminalRef || "N/A"}
           </Typography.Text>
-          {/* Replaced moment with dayjs */}
           <span className="text-xs text-gray-500">
             {dayjs(record.createdAt).format("YYYY-MM-DD HH:mm:ss")}
           </span>
