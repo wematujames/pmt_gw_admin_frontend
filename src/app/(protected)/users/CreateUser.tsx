@@ -15,7 +15,6 @@ import { CgUserAdd } from "react-icons/cg";
 import { useMessage } from "@/hooks/useMessage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useForm } from "antd/es/form/Form";
 import { createUser } from "@/actions/users";
 
 const { Option } = Select;
@@ -24,7 +23,7 @@ export default function CreateUser({}: {}) {
   const [open, setOpen] = useState(false);
   const { openMessage } = useMessage();
   const queryClient = useQueryClient();
-  const [form] = useForm();
+  const [form] = Form.useForm();
   const { token } = theme.useToken();
 
   const createUserMutation = useMutation({
@@ -66,7 +65,7 @@ export default function CreateUser({}: {}) {
             Create User
           </Typography.Text>
         }
-        width={720}
+        size={720}
         onClose={() => setOpen(false)}
         open={open}
       >

@@ -70,7 +70,7 @@ export default function Permissions({ user }: { user: any }) {
               fontSize: token.fontSizeLG,
             }}
           >
-            <Tag color={getRecColor(user.active, token)}>
+            <Tag style={{ marginInlineEnd: token.marginXS }} color={getRecColor(user.active, token)}>
               {user.active ? "Active" : "Inactive"}
             </Tag>
             {"Permissions for: " + user?.person?.fName}

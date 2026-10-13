@@ -29,7 +29,7 @@ export default function AuthLayout({
 
       <div className="relative z-10 flex w-full flex-col items-center justify-center p-4">
         {loading ? (
-          <Spin fullscreen size="large" tip="Loading..." />
+          <Spin fullscreen size="large" description="Loading..." />
         ) : (
           children
         )}

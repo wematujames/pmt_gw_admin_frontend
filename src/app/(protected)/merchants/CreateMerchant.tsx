@@ -14,7 +14,6 @@ import {
 import { useMessage } from "@/hooks/useMessage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useForm } from "antd/es/form/Form";
 import { MdOutlineAddBusiness } from "react-icons/md";
 import { createMerchant } from "@/actions/merchants";
 
@@ -24,7 +23,7 @@ export default function CreateMerchant({}: {}) {
   const [open, setOpen] = useState(false);
   const { openMessage } = useMessage();
   const queryClient = useQueryClient();
-  const [form] = useForm();
+  const [form] = Form.useForm();
   const { token } = theme.useToken();
 
   const createMerchantMutation = useMutation({
@@ -70,7 +69,7 @@ export default function CreateMerchant({}: {}) {
             Create Merchant
           </Typography.Text>
         }
-        width={600}
+        size={600}
         onClose={() => setOpen(false)}
         open={open}
       >

@@ -59,7 +59,7 @@ export default function Merchants() {
       dataIndex: "merchantId",
       key: "merchantId",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
             {record.merchantId}
           </Typography.Text>
@@ -72,7 +72,7 @@ export default function Merchants() {
       dataIndex: "name",
       key: "name",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
             {record.name}
           </Typography.Text>
@@ -98,7 +98,7 @@ export default function Merchants() {
       dataIndex: "phone",
       key: "phone",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
             {record.phone}
           </Typography.Text>
@@ -117,7 +117,7 @@ export default function Merchants() {
         );
 
         return (
-          <Space direction="vertical" size={2}>
+          <Space orientation="vertical" size={2}>
             <Tag color={statusColor} className="m-0">
               {record.active ? "ACTIVE" : "INACTIVE"}
             </Tag>
@@ -135,7 +135,7 @@ export default function Merchants() {
       dataIndex: "createdBy",
       key: "createdBy",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text>{record.createdBy?.email || "N/A"}</Typography.Text>
           <span className="text-xs text-gray-500">
             {dayjs(record.createdAt).format("YYYY-MM-DD HH:mm:ss")}

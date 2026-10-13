@@ -6,14 +6,13 @@ import { useMessage } from "@/hooks/useMessage";
 import { removeUndefinedValues } from "@/utils/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Col, Flex, Form, Image, Input, Row } from "antd";
-import { useForm } from "antd/es/form/Form";
 import { AxiosError } from "axios";
 
 function TwoFactorAuth() {
   const { logout } = useLogout();
   const { openMessage } = useMessage();
   const queryClient = useQueryClient();
-  const [form] = useForm();
+  const [form] = Form.useForm();
   const generateQrCode = useQuery({
     queryKey: ["current-user-2fa-qrcode"],
     queryFn: () => getQrCode(),

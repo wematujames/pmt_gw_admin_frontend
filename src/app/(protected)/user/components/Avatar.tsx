@@ -1,12 +1,13 @@
 import { LockOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Avatar, Card, Divider, Dropdown, Space, theme } from "antd";
 import { useLogout } from "../../../../hooks/useLogout";
-import Meta from "antd/es/card/Meta";
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import Link from "next/link";
 import { useMessage } from "@/hooks/useMessage";
 import { useUser } from "@/hooks/useUser";
+
+const { Meta } = Card;
 
 const { useToken } = theme;
 const UserAvatar = () => {

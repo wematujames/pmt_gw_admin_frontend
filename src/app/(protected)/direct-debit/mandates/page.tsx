@@ -52,7 +52,7 @@ export default function DirectDebitMandates() {
       dataIndex: "_id",
       key: "_id",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
             {record._id}
           </Typography.Text>
@@ -76,7 +76,7 @@ export default function DirectDebitMandates() {
       dataIndex: "phone",
       key: "phone",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
             {record.phone}
           </Typography.Text>
@@ -91,7 +91,7 @@ export default function DirectDebitMandates() {
       dataIndex: "frequency",
       key: "frequency",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text>{record.frequency}</Typography.Text>
           <span className="text-xs text-gray-500">
             NP: {dayjs(record.nextPaymentDate).format("YYYY-MM-DD")}
@@ -107,7 +107,7 @@ export default function DirectDebitMandates() {
       dataIndex: "network",
       key: "network",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
             {record.network}
           </Typography.Text>
@@ -126,7 +126,7 @@ export default function DirectDebitMandates() {
         );
 
         return (
-          <Space direction="vertical" size={2}>
+          <Space orientation="vertical" size={2}>
             <Tag color={statusColor} className="m-0">
               {record.active ? "ACTIVE" : "INACTIVE"}
             </Tag>
@@ -144,7 +144,7 @@ export default function DirectDebitMandates() {
       dataIndex: "processorTerminalRef",
       key: "processorTerminalRef",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text>
             {record.processorTerminalRef || "N/A"}
           </Typography.Text>

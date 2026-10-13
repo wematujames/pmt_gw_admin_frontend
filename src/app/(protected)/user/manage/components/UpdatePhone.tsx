@@ -5,14 +5,13 @@ import { useMessage } from "@/hooks/useMessage";
 import { useUser } from "@/hooks/useUser";
 import { removeUndefinedValues } from "@/utils/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, Col, Flex, Form, Input, Row } from "antd";
-import { useForm } from "antd/es/form/Form";
+import { Button, Col, Flex, Form, Input, Row, Space } from "antd";
 import { AxiosError } from "axios";
 
 function UpdatePhone() {
   const queryClient = useQueryClient();
   const { openMessage } = useMessage();
-  const [form] = useForm();
+  const [form] = Form.useForm();
   const { user } = useUser();
 
   const updateUserMobileMutation = useMutation({
@@ -50,12 +49,13 @@ function UpdatePhone() {
       >
         <Row gutter={16}>
           <Col span={24}>
-            <Form.Item name="currentPhone" label="Current Phone Number">
-              <Input
-                readOnly
-                type="text"
-                addonAfter={"V: " + user?.phoneVerified}
-              />
+            <Form.Item label="Current Phone Number">
+              <Space.Compact block>
+                <Form.Item name="currentPhone" noStyle>
+                  <Input readOnly type="text" />
+                </Form.Item>
+                <Space.Addon>{"V: " + user?.phoneVerified}</Space.Addon>
+              </Space.Compact>
             </Form.Item>
           </Col>
           <Col span={24}>

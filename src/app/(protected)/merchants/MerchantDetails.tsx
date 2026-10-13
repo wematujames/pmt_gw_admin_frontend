@@ -6,6 +6,7 @@ import {
   Input,
   Modal,
   Row,
+  Space,
   Tag,
   theme,
   Typography,
@@ -40,7 +41,7 @@ export default function TxnDetails({ merchant }: { merchant: any }) {
         onCancel={() => setOpen(false)}
         title={
           <Typography.Title level={5}>
-            <Tag color={getRecColor(merchant.active, token)}>
+            <Tag style={{ marginInlineEnd: token.marginXS }} color={getRecColor(merchant.active, token)}>
               {merchant.active ? "Active" : "Inactive"}
             </Tag>
             {"Merchant: " + merchant._id}
@@ -60,15 +61,14 @@ export default function TxnDetails({ merchant }: { merchant: any }) {
                   <Row gutter={[10, 5]}>
                     {Object.keys(accountTransformed).map((key) => (
                       <Col key={key} lg={12} style={{ width: "100%" }}>
-                        <Input
-                          readOnly
-                          addonBefore={
+                        <Space.Compact block>
+                          <Space.Addon>
                             <strong style={{ color: token.colorTextLabel }}>
                               {key}
                             </strong>
-                          }
-                          value={accountTransformed[key]}
-                        />
+                          </Space.Addon>
+                          <Input readOnly value={accountTransformed[key]} />
+                        </Space.Compact>
                       </Col>
                     ))}
                   </Row>
@@ -81,13 +81,12 @@ export default function TxnDetails({ merchant }: { merchant: any }) {
         <Row gutter={[10, 5]}>
           {Object.keys(merchantTransformed).map((key) => (
             <Col key={key} lg={12} style={{ width: "100%" }}>
-              <Input
-                readOnly
-                addonBefore={
+              <Space.Compact block>
+                <Space.Addon>
                   <strong style={{ color: token.colorTextLabel }}>{key}</strong>
-                }
-                value={merchantTransformed[key]}
-              />
+                </Space.Addon>
+                <Input readOnly value={merchantTransformed[key]} />
+              </Space.Compact>
             </Col>
           ))}
         </Row>

@@ -59,7 +59,7 @@ export default function Users() {
       dataIndex: "person",
       key: "person",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
             {record.person?.title} {record.person?.fName} {record.person?.lName}
           </Typography.Text>
@@ -72,7 +72,7 @@ export default function Users() {
       dataIndex: "phone",
       key: "phone",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
             {record.phone}
           </Typography.Text>
@@ -98,7 +98,7 @@ export default function Users() {
       dataIndex: "active",
       key: "active",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={2}>
+        <Space orientation="vertical" size={2}>
           <Tag color={getRecColor(record.active, token)} className="m-0">
             {record.active ? "ACTIVE" : "INACTIVE"}
           </Tag>
@@ -111,7 +111,7 @@ export default function Users() {
       dataIndex: "createdBy",
       key: "createdBy",
       render: (_: any, record: any) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Typography.Text>{record.createdBy?.email || "N/A"}</Typography.Text>
           <span className="text-xs text-gray-500">
             {dayjs(record.createdAt).format("YYYY-MM-DD HH:mm:ss")}

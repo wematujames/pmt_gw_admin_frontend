@@ -6,13 +6,12 @@ import { useUser } from "@/hooks/useUser";
 import { removeUndefinedValues } from "@/utils/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Col, Flex, Form, Input, Row } from "antd";
-import { useForm } from "antd/es/form/Form";
 import { AxiosError } from "axios";
 
 function UpdateProfile() {
   const queryClient = useQueryClient();
   const { openMessage } = useMessage();
-  const [form] = useForm();
+  const [form] = Form.useForm();
   const { user } = useUser();
 
   const updateUserMutation = useMutation({

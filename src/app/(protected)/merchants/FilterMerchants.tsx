@@ -74,7 +74,7 @@ export default function FilterMerchants({
             </span>
           </div>
         }
-        width={450}
+        size={450}
         onClose={() => setOpen(false)}
         open={open}
         footer={

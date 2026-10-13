@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Input, Modal, Row, Tag, theme, Typography } from "antd";
+import { Button, Col, Input, Modal, Row, Space, Tag, theme, Typography } from "antd";
 import { BsEye } from "react-icons/bs";
 import { getRecColor } from "@/utils/common";
 
@@ -48,7 +48,7 @@ export default function TxnDetails({ txn }: { txn: any }) {
         onCancel={() => setOpen(false)}
         title={
           <Typography.Title level={5}>
-            <Tag color={getRecColor(txn.status, token)}>{txn.status}</Tag>
+            <Tag style={{ marginInlineEnd: token.marginXS }} color={getRecColor(txn.status, token)}>{txn.status}</Tag>
             {`Transaction: ${txn._id}`}
           </Typography.Title>
         }
@@ -57,13 +57,12 @@ export default function TxnDetails({ txn }: { txn: any }) {
         <Row gutter={[10, 5]}>
           {Object.keys(txnTransformed).map((key) => (
             <Col key={key} lg={12} style={{ width: "100%" }}>
-              <Input
-                readOnly
-                addonBefore={
+              <Space.Compact block>
+                <Space.Addon>
                   <strong style={{ color: token.colorTextLabel }}>{key}</strong>
-                }
-                value={txnTransformed[key]}
-              />
+                </Space.Addon>
+                <Input readOnly value={txnTransformed[key]} />
+              </Space.Compact>
             </Col>
           ))}
         </Row>

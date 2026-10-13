@@ -34,7 +34,7 @@ export default function AuthLayout({
       {/* The main content area sits above the background overlay (z-10) */}
       <div className="relative z-10 flex w-full flex-col items-center justify-center p-4">
         {loading || user ? (
-          <Spin fullscreen size="large" tip="Verifying access..." />
+          <Spin fullscreen size="large" description="Verifying access..." />
         ) : (
           children
         )}

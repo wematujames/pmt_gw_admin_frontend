@@ -6,7 +6,6 @@ import { useMessage } from "@/hooks/useMessage";
 import { useMutation } from "@tanstack/react-query";
 import { Button, Form, Input, Card, Typography, Divider } from "antd";
 import { LockOutlined, KeyOutlined } from "@ant-design/icons";
-import { useForm } from "antd/es/form/Form";
 import { AxiosError } from "axios";
 import Image from "next/image";
 
@@ -19,7 +18,7 @@ interface PasswordUpdateData {
 export default function ChangeDefaultPassword() {
   const { logout } = useLogout();
   const { openMessage } = useMessage();
-  const [form] = useForm();
+  const [form] = Form.useForm();
 
   const updateUserPassword = useMutation({
     mutationKey: ["update-current-user-password"],

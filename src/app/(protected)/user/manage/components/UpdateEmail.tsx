@@ -5,13 +5,12 @@ import { useMessage } from "@/hooks/useMessage";
 import { useUser } from "@/hooks/useUser";
 import { removeUndefinedValues } from "@/utils/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, Col, Flex, Form, Input, Row } from "antd";
-import { useForm } from "antd/es/form/Form";
+import { Button, Col, Flex, Form, Input, Row, Space } from "antd";
 import { AxiosError } from "axios";
 
 function UpdateEmail() {
   const { openMessage } = useMessage();
-  const [form] = useForm();
+  const [form] = Form.useForm();
   const queryClient = useQueryClient();
   const { user } = useUser()
 
@@ -50,12 +49,13 @@ function UpdateEmail() {
       >
         <Row gutter={16}>
           <Col span={24}>
-            <Form.Item name="currentEmail" label="Current Email">
-              <Input
-                readOnly
-                type="email"
-                addonAfter={"V: " + user?.emailVerified}
-              />
+            <Form.Item label="Current Email">
+              <Space.Compact block>
+                <Form.Item name="currentEmail" noStyle>
+                  <Input readOnly type="email" />
+                </Form.Item>
+                <Space.Addon>{"V: " + user?.emailVerified}</Space.Addon>
+              </Space.Compact>
             </Form.Item>
           </Col>
           <Col span={24}>

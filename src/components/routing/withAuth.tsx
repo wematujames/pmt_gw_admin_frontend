@@ -37,7 +37,7 @@ export default function withAuth<P extends object>(
 
     // Show spinner while checking auth status
     if (loading) {
-      return <Spin fullscreen size="large" tip="Verifying access..." />;
+      return <Spin fullscreen size="large" description="Verifying access..." />;
     }
 
     // Prevent content flash before redirects kick in

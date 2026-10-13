@@ -54,9 +54,9 @@ const StatisticsCards = ({
       {metrics.map((metric, index) => (
         <Col xs={24} sm={12} md={8} lg={6} key={index}>
           <Card
-            bordered={false}
+            variant="borderless"
             className="shadow-sm hover:shadow-md transition-shadow duration-300 rounded-xl"
-            bodyStyle={{ padding: "20px" }}
+            styles={{ body: { padding: "20px" } }}
           >
             {loading ? (
               <Skeleton active paragraph={{ rows: 2 }} />

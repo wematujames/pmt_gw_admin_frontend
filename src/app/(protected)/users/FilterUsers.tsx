@@ -74,7 +74,7 @@ export default function FilterUsers({
             </span>
           </div>
         }
-        width={450}
+        size={450}
         onClose={() => setOpen(false)}
         open={open}
         footer={

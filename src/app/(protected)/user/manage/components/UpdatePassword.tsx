@@ -6,13 +6,12 @@ import { useMessage } from "@/hooks/useMessage";
 import { removeUndefinedValues } from "@/utils/common";
 import { useMutation } from "@tanstack/react-query";
 import { Button, Col, Flex, Form, Input, Row } from "antd";
-import { useForm } from "antd/es/form/Form";
 import { AxiosError } from "axios";
 
 function UpdatePassword() {
   const { logout } = useLogout();
   const { openMessage } = useMessage();
-  const [form] = useForm();
+  const [form] = Form.useForm();
 
   const updateUserPassword = useMutation({
     mutationKey: ["update-current-user-password"],

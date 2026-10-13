@@ -19,7 +19,8 @@ export default function Providers({
     // collected into the server HTML (otherwise first paint is unstyled).
     return (
         <AntdRegistry>
-            <ConfigProvider theme={theme}>
+            {/* antd 6 renders custom-colour tags light by default; keep v5's solid look */}
+            <ConfigProvider theme={theme} tag={{ variant: "solid" }}>
                 <NotificationProvider>
                     <MessageProvider>
                         <QueryClientProvider client={queryClient}>

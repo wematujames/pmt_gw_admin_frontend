@@ -20,7 +20,6 @@ import { useMessage } from "@/hooks/useMessage";
 import { MdUpdate } from "react-icons/md";
 import { AxiosError } from "axios";
 import { getRecColor } from "@/utils/common";
-import { useForm } from "antd/es/form/Form";
 import { updateMerchantConfig } from "@/actions/merchants";
 import { transformMerchantConfig } from "./utils";
 
@@ -32,7 +31,7 @@ export default function ConfigureMerchant({ merchant }: { merchant: any }) {
   const { openMessage } = useMessage();
   const [open, setOpen] = useState<boolean>(false);
   const { token } = theme.useToken();
-  const [form] = useForm();
+  const [form] = Form.useForm();
 
   const updateMerchantConfigMutation = useMutation({
     mutationKey: ["upate-merchant-config"],
@@ -69,7 +68,7 @@ export default function ConfigureMerchant({ merchant }: { merchant: any }) {
               fontSize: token.fontSizeLG,
             }}
           >
-            <Tag color={getRecColor(merchant.active, token)}>
+            <Tag style={{ marginInlineEnd: token.marginXS }} color={getRecColor(merchant.active, token)}>
               {merchant.active ? "Active" : "Inactive"}
             </Tag>
             {"Confirgure Merchant: " + merchant?.name}
