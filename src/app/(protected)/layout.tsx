@@ -97,7 +97,7 @@ function ProtectedLayout({ children, sideMenuItems }: Readonly<{ children: React
           />
         </Sider>
 
-        <Layout className="relative">
+        <Layout className="relative h-screen">
           <Header
             className="flex justify-between items-center px-4 p-0 shadow-sm relative z-10"
             style={{
@@ -124,7 +124,7 @@ function ProtectedLayout({ children, sideMenuItems }: Readonly<{ children: React
             <UserAvatar />
           </Header>
 
-          <Content className="h-[calc(100vh-64px-64px)] p-5 overflow-y-auto bg-gray-50">
+          <Content className="flex-1 min-h-0 p-5 overflow-y-auto bg-gray-50">
             {children}
           </Content>
 
