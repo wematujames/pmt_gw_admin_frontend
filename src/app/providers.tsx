@@ -6,23 +6,28 @@ import NotificationProvider from "@/context/NotificationContext";
 import MessageProvider from "@/context/MessageContext";
 import { ConfigProvider } from "antd";
 import theme from "@/themes/default";
+import { useState } from "react";
 
 export default function Providers({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const queryClient = new QueryClient();
+    const [queryClient] = useState(() => new QueryClient());
 
+    // AntdRegistry must wrap everything that renders antd so its styles are
+    // collected into the server HTML (otherwise first paint is unstyled).
     return (
-        <NotificationProvider>
-            <MessageProvider>
-                <QueryClientProvider client={queryClient}>
-                    <ConfigProvider theme={theme}>
-                        <AntdRegistry>{children}</AntdRegistry>
-                    </ConfigProvider>
-                </QueryClientProvider>
-            </MessageProvider>
-        </NotificationProvider>
+        <AntdRegistry>
+            <ConfigProvider theme={theme}>
+                <NotificationProvider>
+                    <MessageProvider>
+                        <QueryClientProvider client={queryClient}>
+                            {children}
+                        </QueryClientProvider>
+                    </MessageProvider>
+                </NotificationProvider>
+            </ConfigProvider>
+        </AntdRegistry>
     );
 }

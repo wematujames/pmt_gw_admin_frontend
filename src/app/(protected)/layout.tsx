@@ -24,7 +24,7 @@ function ProtectedLayout({ children, sideMenuItems }: Readonly<{ children: React
   const { openMessage } = useMessage();
   const pathname = usePathname();
 
-  const queryClient = new QueryClient({
+  const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       mutations: {
         onSuccess: () => openMessage("success", "Success"),
@@ -36,7 +36,7 @@ function ProtectedLayout({ children, sideMenuItems }: Readonly<{ children: React
         refetchOnReconnect: false,
       },
     },
-  });
+  }));
   //todo: Uncomment the line below to enable automatic logout after inactivity
   // useInactivityTimeout(logout);
 

@@ -12,6 +12,7 @@
     "build:prod": "ENVIRONMENT=env/.env.production next build"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "~1.24.0",
     "@ant-design/icons": "^5.4.0",
     "@ant-design/nextjs-registry": "^1.0.0",
     "@ant-design/plots": "^2.2.4",
