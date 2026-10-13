@@ -27,7 +27,7 @@ Items 12-18 come from the full audit on 2026-10-13. Finding IDs refer to
 
 - [x] 12. **Fix 2FA login for v1** - handle the v1 `{ multiFAEnabled, loginToken }` response and go straight to authenticator verification; remove the SMS 2FA screens v1 can't serve (F-01, F-05). Fixed 2026-10-13 outside the feature loop; no archived spec
 - [x] 13. **Single query cache** - one QueryClient so logout actually signs out and profile/email/phone updates refresh the current user (F-02, F-07)
-- [ ] 14. **Safe permission updates** - start the permissions editor from the user's current permissions so saving can't revoke them all (F-03) _(Already fixed in feature 13, Single query cache: `Permissions.tsx` seeds the editor from the user's current permissions.)_
+- [x] 14. **Safe permission updates** - start the permissions editor from the user's current permissions so saving can't revoke them all (F-03) _(Already fixed in feature 13, Single query cache: `Permissions.tsx` seeds the editor from the user's current permissions.)_
 - [ ] 16. **Email verification resend** - replace the broken resend form with a flow v1 supports (F-06)
 - [ ] 17. **Font setup cleanup** - the app renders in the system font; either apply Montserrat through the antd theme or remove the unused cursive font and commented CSS (F-08)
 - [ ] 18. **Cleanup and small UI fixes** - remove dead code and unused deps, fix forgot-password error toast, AirtelTigo status, password mismatch message, and sign-in redirect on change-default-password (F-09 to F-13)
