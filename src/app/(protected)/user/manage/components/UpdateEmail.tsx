@@ -17,12 +17,12 @@ function UpdateEmail() {
   const updateEmailMutation = useMutation({
     mutationKey: ["update-current-user-email"],
     mutationFn: (data: any) => updateUserEmail(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["update-current-user-email"],
-      });
-      form.resetFields();
+    onSuccess: async () => {
       openMessage("success", "Email updated, verification link sent");
+      await queryClient.invalidateQueries({ queryKey: ["current-user"] });
+      form.resetFields();
+      // Initial values may still hold the old user until the next render
+      form.setFieldValue("currentEmail", queryClient.getQueryData<any>(["current-user"])?.email);
     },
     onError: (err: AxiosError<{ message: string }>) => {
       openMessage("error", err.response?.data.message || err.message);

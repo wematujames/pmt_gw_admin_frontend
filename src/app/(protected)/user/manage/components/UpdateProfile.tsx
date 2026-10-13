@@ -20,9 +20,7 @@ function UpdateProfile() {
     onSuccess: () => {
       form.resetFields(["password"]);
       openMessage("success", "Profile updated");
-      queryClient.invalidateQueries({
-        queryKey: ["update-current-user"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["current-user"] });
     },
     onError: (err: AxiosError<{ message: string }>) => {
       openMessage("error", err.response?.data.message || err.message);

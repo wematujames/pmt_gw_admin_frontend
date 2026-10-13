@@ -7,14 +7,34 @@ import MessageProvider from "@/context/MessageContext";
 import { ConfigProvider } from "antd";
 import theme from "@/themes/default";
 import { useState } from "react";
+import { useMessage } from "@/hooks/useMessage";
+
+// The app's only QueryClient. It lives under MessageProvider so the default
+// mutation handlers can show toasts.
+function QueryProvider({ children }: Readonly<{ children: React.ReactNode }>) {
+    const { openMessage } = useMessage();
+    const [queryClient] = useState(() => new QueryClient({
+        defaultOptions: {
+            mutations: {
+                onSuccess: () => openMessage("success", "Success"),
+                onError: (err: any) =>
+                    openMessage("error", err.response?.data.message || err.message),
+            },
+            queries: {
+                refetchOnWindowFocus: false,
+                refetchOnReconnect: false,
+            },
+        },
+    }));
+
+    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+}
 
 export default function Providers({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const [queryClient] = useState(() => new QueryClient());
-
     // AntdRegistry must wrap everything that renders antd so its styles are
     // collected into the server HTML (otherwise first paint is unstyled).
     return (
@@ -23,9 +43,7 @@ export default function Providers({
             <ConfigProvider theme={theme} tag={{ variant: "solid" }}>
                 <NotificationProvider>
                     <MessageProvider>
-                        <QueryClientProvider client={queryClient}>
-                            {children}
-                        </QueryClientProvider>
+                        <QueryProvider>{children}</QueryProvider>
                     </MessageProvider>
                 </NotificationProvider>
             </ConfigProvider>

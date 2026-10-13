@@ -1,6 +1,6 @@
 # Nerasika Admin (v1) - Project Overview
 
-<!-- blueprint:source-hash bfabbeea91455bec94875591adc2c00730fc9ce1671c8b28f01ebfde04adfc9c -->
+<!-- blueprint:source-hash 56a91667caa180206a650303caeff55c31f3b0a8f3938dc20b0afe6e21433179 -->
 
 > Internal admin console for NeraSol Ghana's Nerasika payment gateway, locked to the frozen v1 backend API.
 
@@ -47,6 +47,7 @@ Items 1-10 shipped before the Blueprint was adopted. 11 is next; 12-18 fix defec
 16. **Email verification resend** - replace the broken resend form with a flow v1 supports (F-06).
 17. **Font setup cleanup** - apply Montserrat via the antd theme or remove the unused font setup; the app currently renders in the system font (F-08).
 18. **Cleanup and small UI fixes** - dead code, unused deps, minor UI bugs (F-09 to F-13).
+19. **Use antd App for messages and notifications** - replace the custom message/notification contexts with antd `App.useApp()` so toasts follow the theme.
 
 ## Data model
 
@@ -104,7 +105,7 @@ fields the UI reads today. They are fixed by the frozen v1 API.
 - **React 18 + TypeScript (strict)** - `@/*` maps to `src/*`.
 - **Ant Design 6** - UI kit, themed in `src/themes/default.ts`; `@ant-design/plots` for charts.
 - **Tailwind CSS 4** - layout utilities alongside antd.
-- **TanStack Query 5** - server state; global mutation success/error messages in the protected layout.
+- **TanStack Query 5** - server state; one root `QueryClient` (`src/app/providers.tsx`) with global mutation success/error messages.
 - **axios** - shared client `src/actions/utils/nerasikaAxios.ts` (base URL, `x-app: admin`, bearer token).
 - **dayjs** - dates; **json-2-csv / js-file-download** - exports.
 - **npm** - package manager; `npm run verify` (typecheck + build) in GitHub Actions.

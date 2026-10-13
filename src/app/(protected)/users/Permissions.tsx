@@ -53,7 +53,13 @@ export default function Permissions({ user }: { user: any }) {
 
   return (
     <>
-      <Typography.Text onClick={() => setOpen(true)}>
+      <Typography.Text
+        onClick={() => {
+          // Start from the user's current permissions so saving without changes keeps them
+          setPerms(user?.permissions?.map((p: any) => String(p)) || []);
+          setOpen(true);
+        }}
+      >
         Permissions
       </Typography.Text>
 
@@ -84,7 +90,7 @@ export default function Permissions({ user }: { user: any }) {
         }
       >
         <Checkbox.Group
-          defaultValue={user?.permissions?.map((p: any) => String(p)) || []}
+          value={perms}
           style={{ width: "100%" }}
           onChange={onChange}
         >

@@ -17,12 +17,12 @@ function UpdatePhone() {
   const updateUserMobileMutation = useMutation({
     mutationKey: ["update-user-phone"],
     mutationFn: (data: any) => updateUserMobile(data),
-    onSuccess: () => {
+    onSuccess: async () => {
       openMessage("success", "Phone updated");
-      queryClient.invalidateQueries({
-        queryKey: ["update-user-phone"],
-      });
+      await queryClient.invalidateQueries({ queryKey: ["current-user"] });
       form.resetFields();
+      // Initial values may still hold the old user until the next render
+      form.setFieldValue("currentPhone", queryClient.getQueryData<any>(["current-user"])?.phone);
     },
     onError: (err: AxiosError<{ message: string }>) => {
       openMessage("error", err.response?.data.message || err.message);
