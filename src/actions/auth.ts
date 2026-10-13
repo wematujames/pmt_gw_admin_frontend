@@ -1,6 +1,5 @@
 "use client"
 
-import { MfaMethod } from "@/app/auth/login/page";
 import apiReq from "./utils/nerasikaAxios";
 
 export const login = async (email: string, pwd: string) =>  {
@@ -16,10 +15,10 @@ export const login = async (email: string, pwd: string) =>  {
     return res.data.data;
 };
 
-export const login2fa = async (vCode: string, tkn: string, mfaType: MfaMethod) =>  {
+export const login2fa = async (vCode: string, tkn: string) =>  {
     const res = await apiReq.post(
       "/platform/auth/login2fa",
-      {  verificationCode: vCode, loginToken: tkn, mfaType },
+      {  verificationCode: vCode, loginToken: tkn },
     );
 
     localStorage && localStorage.setItem(process.env.NEXT_PUBLIC_API_AUTH_TOKEN!, res.data.data.token);
@@ -57,10 +56,6 @@ export const updateUserEmail = async ( updates: Object) =>  {
 export const verifyUserEmail = async ( token: string) =>  {
 
   return apiReq.put("/platform/auth/user/verifyemail", { token });
-};
-
-export const sendSmsOtp = async () =>  {
-  return apiReq.post("/auth/smsmfaotp");
 };
 
 export const resendEmailVeriLink = async ( token: string) =>  {

@@ -21,7 +21,7 @@ export default function AuthenticatorVerification({
 
     const verifyMutation = useMutation({
         mutationKey: ["verify-2fa-auth"],
-        mutationFn: (data: { verificationCode: string }) => login2fa(data.verificationCode, loginToken, "authenticator"),
+        mutationFn: (data: { verificationCode: string }) => login2fa(data.verificationCode, loginToken),
         onSuccess: () => {
             openMessage("success", "Verified successfully");
             router.push("/dashboard/financial");

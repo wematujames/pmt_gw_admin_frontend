@@ -9,7 +9,7 @@ import { AxiosError } from "axios";
 import { useMessage } from "@/hooks/useMessage";
 import { useRouter } from "next/navigation";
 
-export default function LoginForm({ onSuccess }: { onSuccess: (res: any) => void }) {
+export default function LoginForm({ onMultiFA }: { onMultiFA: (loginToken: string) => void }) {
     const router = useRouter();
     const { openMessage } = useMessage();
 
@@ -17,8 +17,8 @@ export default function LoginForm({ onSuccess }: { onSuccess: (res: any) => void
         mutationKey: ["login-user"],
         mutationFn: (credentials: LoginCredentials) => login(credentials.email, credentials.password),
         onSuccess: (res) => {
-            if (res.mfa) {
-                onSuccess(res);
+            if (res.multiFAEnabled) {
+                onMultiFA(res.loginToken);
                 return;
             }
             openMessage("success", "Logged in successfully");
