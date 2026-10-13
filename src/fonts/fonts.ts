@@ -1,13 +1,8 @@
-import { Inter, Roboto_Mono, Cedarville_Cursive } from 'next/font/google'
- 
-export const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-})
- 
-export const roboto_mono = Roboto_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-})
+import { Inter } from "next/font/google";
 
-export const montserrat = Cedarville_Cursive({weight: "400", subsets: ["latin"]})
+// Self-hosted at build time; the antd theme reads it through --font-inter.
+export const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});

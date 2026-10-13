@@ -29,6 +29,6 @@ Items 12-18 come from the full audit on 2026-10-13. Finding IDs refer to
 - [x] 13. **Single query cache** - one QueryClient so logout actually signs out and profile/email/phone updates refresh the current user (F-02, F-07)
 - [x] 14. **Safe permission updates** - start the permissions editor from the user's current permissions so saving can't revoke them all (F-03) _(Already fixed in feature 13, Single query cache: `Permissions.tsx` seeds the editor from the user's current permissions.)_
 - [x] 16. **Email verification resend** - replace the broken resend form with a flow v1 supports (F-06)
-- [ ] 17. **Font setup cleanup** - the app renders in the system font; either apply Montserrat through the antd theme or remove the unused cursive font and commented CSS (F-08)
+- [x] 17. **Font setup cleanup** - the app renders in the system font; either apply Montserrat through the antd theme or remove the unused cursive font and commented CSS (F-08)
 - [ ] 18. **Cleanup and small UI fixes** - remove dead code and unused deps, fix forgot-password error toast, AirtelTigo status, password mismatch message, and sign-in redirect on change-default-password (F-09 to F-13)
 - [ ] 19. **Use antd App for messages and notifications** - wrap the app in antd `<App>` and replace the custom `useMessage`/`useNotification` contexts with `App.useApp()` so toasts follow the theme; delete `MessageContext` and `NotificationContext`. Added 2026-10-13, not from the audit

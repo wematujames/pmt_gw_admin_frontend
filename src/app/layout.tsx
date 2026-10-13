@@ -1,4 +1,4 @@
-import { montserrat } from "@/fonts/fonts";
+import { inter } from "@/fonts/fonts";
 // Suppress TS error for side-effect CSS import when no .d.ts is present
 // @ts-ignore
 import "./globals.css";
@@ -22,7 +22,7 @@ export default function RootLayout({
         <meta name="robots" content="noindex" />
         <title>Nerasika</title>
       </head>
-      <body className={montserrat.className}>
+      <body className={`${inter.variable} ${inter.className}`}>
         <Providers>
           {children}
         </Providers>

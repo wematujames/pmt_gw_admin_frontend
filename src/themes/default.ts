@@ -5,6 +5,7 @@ const theme: ThemeConfig = {
     "colorPrimary": "#142868",
     "colorInfo": "#142868",
     "colorSuccess": "#7bc657",
+    "fontFamily": "var(--font-inter), -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
   },
   "components": {
     "Table": {

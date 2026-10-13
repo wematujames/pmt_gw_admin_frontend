@@ -7,14 +7,14 @@
 > finding is `open` or `fixed`, then archives resolved findings with the work
 > and resets this file.
 
-### F-08 [P3] open - Montserrat is never applied; body loads an unused cursive font
+### F-08 [P3] fixed - Montserrat is never applied; body loads an unused cursive font
 
 **File:** src/fonts/fonts.ts:13
 **Found:** 2026-10-13 by /audit (scope: full; lens: all)
 **Verified:** 2026-10-13 re-check - corrected. In the browser `<body>` computes to Cedarville Cursive, but antd's Layout and Card set the system font, so every visible text checked (module headers, "Total Records", greeting, footer, auth copy) renders in the system font. Users never see the cursive face. Downgraded from P2.
 **Why it matters:** `export const montserrat = Cedarville_Cursive(...)` is applied to `<body>` and the Montserrat rules in `globals.css` are commented out (lines 3-118). The app downloads a font it never shows, and Montserrat, which the code clearly intends, is never used.
 **Suggested fix:** Decide whether the app should use Montserrat. If yes, load it with `next/font` and pass it to antd through the `fontFamily` theme token (the body class alone is overridden by antd). If no, delete `fonts.ts` and the commented CSS. Either way drop the unused `inter` and `roboto_mono` exports.
-**Resolution:**
+**Resolution:** 2026-10-13 feature 17 - Inter is loaded with `next/font` (`--font-inter`), applied to `<body>` and to antd's `fontFamily` token; the cursive font, unused Inter/Roboto Mono exports, the Montserrat `@import`, and the commented CSS were removed. Awaiting `/audit` re-review.
 
 ### F-09 [P3] open - Dead and shadowed code
 
