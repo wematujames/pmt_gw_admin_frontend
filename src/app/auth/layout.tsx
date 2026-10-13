@@ -2,7 +2,7 @@
 
 import { useUser } from "@/hooks/useUser";
 import { Spin } from "antd";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 export default function AuthLayout({
@@ -12,12 +12,15 @@ export default function AuthLayout({
 }>) {
   const { user, loading } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
+  // Signed-in users open verification links after changing their email.
+  const allowSignedIn = pathname?.startsWith("/auth/verification/email");
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && user && !allowSignedIn) {
       router.replace("/dashboard/financial");
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, allowSignedIn]);
 
   return (
     <div
@@ -33,7 +36,7 @@ export default function AuthLayout({
 
       {/* The main content area sits above the background overlay (z-10) */}
       <div className="relative z-10 flex w-full flex-col items-center justify-center p-4">
-        {loading || user ? (
+        {loading || (user && !allowSignedIn) ? (
           <Spin fullscreen size="large" description="Verifying access..." />
         ) : (
           children

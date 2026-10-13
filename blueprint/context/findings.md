@@ -7,15 +7,6 @@
 > finding is `open` or `fixed`, then archives resolved findings with the work
 > and resets this file.
 
-### F-06 [P2] open - "Resend verification link" always fails
-
-**File:** src/actions/auth.ts:66 (UI in src/app/auth/verification/email/Failed.tsx:17)
-**Found:** 2026-10-13 by /audit (scope: full; lens: all)
-**Verified:** 2026-10-13 re-check - `/user/updateemail` is behind `auth.protect` and validates `newEmail`/`password`; no resend route exists in v1.
-**Why it matters:** `resendEmailVeriLink` sends `PUT /platform/auth/user/updateemail` with `{ token: <email> }`. That route requires login (`auth.protect`) and a different body, but this page is public. v1 has no resend endpoint.
-**Suggested fix:** Replace the resend form with guidance to sign in and re-submit the email under Account > Email (which v1 supports), or remove it. Needs your decision because it changes shipped UI.
-**Resolution:**
-
 ### F-08 [P3] open - Montserrat is never applied; body loads an unused cursive font
 
 **File:** src/fonts/fonts.ts:13

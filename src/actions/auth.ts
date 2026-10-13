@@ -58,11 +58,6 @@ export const verifyUserEmail = async ( token: string) =>  {
   return apiReq.put("/platform/auth/user/verifyemail", { token });
 };
 
-export const resendEmailVeriLink = async ( token: string) =>  {
-
-  return apiReq.put( "/platform/auth/user/updateemail",{ token } );
-};
-
 export const updateUserMobile = async ( updates: Object) =>  {
 
   return apiReq.put("/platform/auth/user/updatemobile",  updates );

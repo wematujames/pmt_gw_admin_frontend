@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMessage } from "@/hooks/useMessage";
 import { AxiosError } from "axios";
 import { verifyUserEmail } from "@/actions/auth";
@@ -17,10 +17,15 @@ const VerifyEmail: React.FC = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const verifyEmailMutation = useMutation({
     mutationKey: ["verify-email"],
     mutationFn: () => verifyUserEmail(token as string),
+    onSuccess: () => {
+      // A signed-in user's Email tab shows the verified flag from current-user.
+      queryClient.invalidateQueries({ queryKey: ["current-user"] });
+    },
     onError: (err: AxiosError<{ message: string }>) => {
       openMessage("error", err.response?.data.message || err.message);
     },

@@ -1,55 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
-import { Button, Result, Input } from "antd";
-import { MailOutlined } from "@ant-design/icons";
-import { useMutation } from "@tanstack/react-query";
-import { resendEmailVeriLink } from "@/actions/auth";
-import { AxiosError } from "axios";
-import { useMessage } from "@/hooks/useMessage";
+import React from "react";
+import { Button, Result } from "antd";
+import Link from "next/link";
+import { useUser } from "@/hooks/useUser";
 
+// v1 has no public resend route: a new link comes from re-submitting the email
+// on the account Email tab, which requires sign-in.
 const VerifyEmailFailed: React.FC = () => {
-  const { openMessage } = useMessage();
-  const [email, setEmail] = useState("");
-
-  const resendVerificationLink = useMutation({
-    mutationKey: ["resend-verification-email-link"],
-    mutationFn: (emailAddress: string) => resendEmailVeriLink(emailAddress),
-    onSuccess: () => {
-      openMessage("success", "A new verification link has been sent!");
-      setEmail("");
-    },
-    onError: (err: AxiosError<{ message: string }>) => {
-      openMessage("error", err.response?.data.message || err.message);
-    },
-  });
+  const { user } = useUser();
 
   return (
     <Result
       status="error"
       title="Verification Failed"
       className="p-0"
-      subTitle="The verification link may have expired or is invalid. Please enter your email to receive a new one."
+      subTitle="This verification link is invalid or has expired. To get a new one, sign in, open your account's Email tab, enter your email address as the New Email, add your password, and submit."
       extra={
-        <div className="flex flex-col gap-4 mt-4">
-          <Input
-            size="large"
-            placeholder="Enter your email address"
-            prefix={<MailOutlined className="text-gray-400 mr-2" />}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Button
-            type="primary"
-            size="large"
-            className="w-full"
-            loading={resendVerificationLink.isPending}
-            disabled={!email}
-            onClick={() => resendVerificationLink.mutate(email)}
-          >
-            Resend Verification Link
+        <Link href={user ? "/user/manage?tab=email" : "/auth/login"}>
+          <Button type="primary" size="large" className="w-full mt-4">
+            {user ? "Open Email settings" : "Go to Sign In"}
           </Button>
-        </div>
+        </Link>
       }
     />
   );
