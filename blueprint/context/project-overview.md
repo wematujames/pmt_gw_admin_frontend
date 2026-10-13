@@ -1,6 +1,6 @@
 # Nerasika Admin (v1) - Project Overview
 
-<!-- blueprint:source-hash 56a91667caa180206a650303caeff55c31f3b0a8f3938dc20b0afe6e21433179 -->
+<!-- blueprint:source-hash eadf97a12257619e356f06d7c805771c9240f77e23f8b45a43616bba0924ab52 -->
 
 > Internal admin console for NeraSol Ghana's Nerasika payment gateway, locked to the frozen v1 backend API.
 

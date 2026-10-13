@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Divider, Flex, Layout, Menu, theme, Button } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined, CloseOutlined } from "@ant-design/icons";
 import UserAvatar from "./user/components/Avatar";
 import Link from "next/link";
 import Image from "next/image";
 import { useLogout } from "@/hooks/useLogout";
+import useInactivityTimeout from "@/hooks/useInactivityTimeout";
+import { useMessage } from "@/hooks/useMessage";
 import withAuth from "../../components/routing/withAuth";
 import { usePathname } from "next/navigation";
 import { getGreeting } from "@/utils/common";
@@ -19,10 +21,15 @@ function ProtectedLayout({ children, sideMenuItems }: Readonly<{ children: React
   const { token } = theme.useToken();
   const { user } = useUser()
   const { logout } = useLogout();
+  const { openMessage } = useMessage();
   const pathname = usePathname();
 
-  //todo: Uncomment the line below to enable automatic logout after inactivity
-  // useInactivityTimeout(logout);
+  const logoutForInactivity = useCallback(() => {
+    openMessage("info", "You were logged out due to inactivity.");
+    logout();
+  }, [openMessage, logout]);
+
+  useInactivityTimeout(logoutForInactivity);
 
   return (
     <Layout hasSider style={{ maxHeight: "100vh", overflow: "hidden" }}>
