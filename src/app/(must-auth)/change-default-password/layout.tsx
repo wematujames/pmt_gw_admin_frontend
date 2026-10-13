@@ -13,10 +13,14 @@ export default function AuthLayout({
   const { user, loading } = useUser();
   const router = useRouter();
 
-  // If a logged-in user tries to visit /auth/login, push them to the dashboard
+  // Signed-out visitors go to login; users who already reset their password go home
   useEffect(() => {
-    if (!loading && user && user.isPasswordReset) {
-      router.replace("/"); // Or "/dashboard" depending on your setup
+    if (loading) return;
+
+    if (!user) {
+      router.replace("/auth/login");
+    } else if (user.isPasswordReset) {
+      router.replace("/");
     }
   }, [user, loading, router]);
 
@@ -28,7 +32,7 @@ export default function AuthLayout({
       <div className="absolute inset-0 backdrop-blur-xs z-0"></div>
 
       <div className="relative z-10 flex w-full flex-col items-center justify-center p-4">
-        {loading ? (
+        {loading || !user ? (
           <Spin fullscreen size="large" description="Loading..." />
         ) : (
           children

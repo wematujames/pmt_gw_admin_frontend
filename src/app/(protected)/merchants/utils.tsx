@@ -39,7 +39,7 @@ export const transformMerchant: any = (merchant: any) => ({
   "Telecel Txns": merchant.config?.channels?.telecel?.allowed
     ? "Enabled"
     : "Disabled",
-  "AirtelTigo Txns": merchant.config?.channels?.airteltigo?.allowed
+  "AirtelTigo Txns": merchant.config?.channels?.airtelTigo?.allowed
     ? "Enabled"
     : "Disabled",
 

@@ -10,12 +10,6 @@ export const getPlatformUsers = async (filter: any = {}) =>  {
   return { data: res.data.data, meta: res.data.meta };
 };
 
-export const getPlatformUser = async (userId: string) =>  {
-  const res = await apiReq.get("/platform/users/" + userId);
-
-  return res.data.data;
-};
-
 export const createUser = async (data: object = {}) =>  {
   const res = await apiReq.post("/platform/users", data);
 

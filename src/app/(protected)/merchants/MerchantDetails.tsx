@@ -17,7 +17,6 @@ import { transformMerchant, transformMerchantAccount } from "./utils";
 
 export default function TxnDetails({ merchant }: { merchant: any }) {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState<boolean>(true);
   const { token } = theme.useToken();
 
   const merchantTransformed = transformMerchant(merchant);

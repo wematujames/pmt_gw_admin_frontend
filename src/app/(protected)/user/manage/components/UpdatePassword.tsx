@@ -34,8 +34,6 @@ function UpdatePassword() {
   const onFinish = (vals: any) => {
     const sanitized = removeUndefinedValues(vals);
 
-    if (sanitized.newPassword !== sanitized.confirmNewPassword) return;
-
     updateUserPassword.mutate(sanitized);
   };
 
@@ -66,7 +64,20 @@ function UpdatePassword() {
           <Col span={24}>
             <Form.Item
               name="confirmNewPassword"
-              rules={[{ required: true, message: "Confirm new password" }]}
+              dependencies={["newPassword"]}
+              rules={[
+                { required: true, message: "Confirm new password" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("newPassword") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error("The new passwords do not match!")
+                    );
+                  },
+                }),
+              ]}
               label="Confirm New Password"
             >
               <Input.Password type="password" />

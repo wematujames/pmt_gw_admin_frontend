@@ -22,7 +22,7 @@ export default function ForgotPasswordPage() {
       form.resetFields();
     },
     onError: (err: AxiosError<{ message: string }>) => {
-      openMessage("success", err.response?.data.message || err.message);
+      openMessage("error", err.response?.data.message || err.message);
     },
   });
 

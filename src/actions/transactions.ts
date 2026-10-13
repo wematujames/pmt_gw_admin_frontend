@@ -10,12 +10,6 @@ export const getTransactions = async (filter: any = {}) =>  {
   return { data: res.data.data, meta: res.data.meta };
 };
 
-export const getTransaction = async (txnId: string) =>  {
-  const res = await apiReq.get( `/platform/transactions/${txnId}`);
-
-  return res.data.data ;
-};
-
 export const exportTransactions = async (filter: any = {}, setLoading: Function) =>  {
   try {
     setLoading(true);

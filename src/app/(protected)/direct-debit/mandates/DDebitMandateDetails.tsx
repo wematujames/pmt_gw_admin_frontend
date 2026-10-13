@@ -5,7 +5,6 @@ import { getRecColor } from "@/utils/common";
 
 export default function TxnDetails({ mandate }: { mandate: any }) {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState<boolean>(true);
   const { token } = theme.useToken();
 
   const transformMandate: any = (mandate: any) => ({
