@@ -1,44 +1,19 @@
+import { filterFalslyValues } from "@/utils/common";
 import apiReq from "./utils/nerasikaAxios";
-import setAuthTokenHeader from "./utils/setAuthToken";
 
-export const getPlatformPermissions = async (_filter: any = {}) =>  {
-  setAuthTokenHeader()
-  
-  const filter = {} as any;
-
-  Object.keys(_filter).forEach((key: any) => {
-    if (_filter[key]) filter[key] = _filter[key]
-  });
-
-  const res = await apiReq(
+export const getPlatformPermissions = async (filter: any = {}) =>  {
+  const res = await apiReq.get(
     "/platform/permissions",
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      params: filter
-    }
+    { params: filterFalslyValues(filter) }
   );
 
   return res.data.data;
 };
 
-
 export const updateUserPermissions = async (userId: string, permissions: string[]) =>  {
-  setAuthTokenHeader()
-
-  const res = await apiReq(
+  const res = await apiReq.put(
     "/platform/permissions/grant",
-    {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      data: {user: userId, permissions}
-    }
+    { user: userId, permissions }
   );
 
   return res.data.data;

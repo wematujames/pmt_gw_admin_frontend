@@ -1,66 +1,29 @@
+import { filterFalslyValues } from "@/utils/common";
 import apiReq from "./utils/nerasikaAxios";
-import setAuthTokenHeader from "./utils/setAuthToken";
 
-export const getPlatformUsers = async (_filter: any = {}) =>  {
-  setAuthTokenHeader()
-  
-  const filter = {} as any;
-
-  Object.keys(_filter).forEach((key: any) => {
-    if (_filter[key]) filter[key] = _filter[key]
-  });
-
-  const res = await apiReq(
+export const getPlatformUsers = async (filter: any = {}) =>  {
+  const res = await apiReq.get(
     "/platform/users",
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      params: filter
-    }
+    { params: filterFalslyValues(filter) }
   );
 
-  return res.data.data;
+  return { data: res.data.data, meta: res.data.meta };
 };
 
 export const getPlatformUser = async (userId: string) =>  {
-  setAuthTokenHeader()
-  
-  const res = await apiReq(
-    "/platform/users/" + userId,
-    { method: "GET" }
-  );
+  const res = await apiReq.get("/platform/users/" + userId);
 
   return res.data.data;
 };
 
 export const createUser = async (data: object = {}) =>  {
-  setAuthTokenHeader()
-
-  const res = await apiReq(
-    "/platform/users",
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      data
-    }
-  );
+  const res = await apiReq.post("/platform/users", data);
 
   return res.data.data;
 };
 
 export const updateUserStatus = async (userId: string, active: boolean) =>  {
-  setAuthTokenHeader()
-
-  const res = await apiReq(
-    "/platform/users/" + userId,
-    { method: "PUT", data: { active } }
-  );
+  const res = await apiReq.put("/platform/users/" + userId, { active });
 
   return res.data.data;
 };

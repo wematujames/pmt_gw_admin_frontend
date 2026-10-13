@@ -4,7 +4,7 @@ import { Button } from "antd";
 import { useQueryClient } from "@tanstack/react-query";
 import { FiRefreshCw } from "react-icons/fi";
 
-export default function ReloadTransactions({ keys }: { keys: Record<string, any>[] }) {
+export default function ReloadTransactions({ keys }: { keys: string[] }) {
     const queryClient = useQueryClient();
 
     const refresh = () => {

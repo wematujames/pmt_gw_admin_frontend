@@ -144,7 +144,7 @@ export default function FilterTransaction({
                 (option?.label as string ?? "").toLowerCase().includes(input.toLowerCase())
               }
               options={
-                merchantIds.data?.map((merc: any) => ({
+                merchantIds.data?.data?.map((merc: any) => ({
                   label: merc.name,
                   value: merc._id,
                 })) || []

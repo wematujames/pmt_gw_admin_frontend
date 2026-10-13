@@ -176,7 +176,7 @@ export default function Transactions() {
 
           <Space>
             <FilterTransaction filter={queryParams} setFilter={setQueryParams} />
-            <ReloadTransactions keys={[["transactions"]]} />
+            <ReloadTransactions keys={["transactions"]} />
           </Space>
         </div>
 

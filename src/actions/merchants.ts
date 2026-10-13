@@ -1,53 +1,29 @@
+import { filterFalslyValues } from "@/utils/common";
 import apiReq from "./utils/nerasikaAxios";
 
-import setAuthTokenHeader from "./utils/setAuthToken";
-
-export const getPlatformMerchants = async (_filter: any = {}) =>  {
-  setAuthTokenHeader()
-
-  const filter = {} as any;
-
-  Object.keys(_filter).forEach((key: any) => {
-    if (_filter[key]) filter[key] = _filter[key]
-  });
-
-  const res = await apiReq(
+export const getPlatformMerchants = async (filter: any = {}) =>  {
+  const res = await apiReq.get(
     "/platform/merchants",
-    { method: "GET", params: filter }
+    { params: filterFalslyValues(filter) }
   );
 
-  return res.data.data;
+  return { data: res.data.data, meta: res.data.meta };
 };
 
 export const createMerchant = async (data: object = {}) =>  {
-  setAuthTokenHeader()
-
-  const res = await apiReq(
-    "/platform/merchants",
-    { method: "POST", data }
-  );
+  const res = await apiReq.post("/platform/merchants", data);
 
   return res.data.data;
 };
 
 export const updateMerchantConfig = async (configId: string, config: object = {}) =>  {
-  setAuthTokenHeader()
-
-  const res = await apiReq(
-    "/platform/merchantconfigs/" + configId,
-    { method: "PUT", data: config }
-  );
+  const res = await apiReq.put("/platform/merchantconfigs/" + configId, config);
 
   return res.data.data;
 };
 
 export const updateMerchantStatus = async (merchantId: string, active: boolean) =>  {
-  setAuthTokenHeader()
-
-  const res = await apiReq(
-    "/platform/merchants/" + merchantId,
-    { method: "PUT", data: { active } }
-  );
+  const res = await apiReq.put("/platform/merchants/" + merchantId, { active });
 
   return res.data.data;
 };

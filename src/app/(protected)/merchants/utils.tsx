@@ -48,10 +48,10 @@ export const transformMerchant: any = (merchant: any) => ({
 });
 
 export const transformMerchantAccount: any = (account: any = {}) => ({
-  "Balance ₵": account.balance,
-  "Collected ₵": account.collected,
-  "Disbursed ₵": account.disbursed,
-  "Reversed ₵": account.reversed,
+  "Balance ₵": account?.balance,
+  "Collected ₵": account?.collected,
+  "Disbursed ₵": account?.disbursed,
+  "Reversed ₵": account?.reversed,
 });
 
 export const transformMerchantConfig: any = (config: any) => {

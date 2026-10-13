@@ -8,7 +8,7 @@ export function removeUndefinedValues(obj: any) {
 }
 
 // Helper to safely check for your specific falsy values, empty arrays, and empty plain objects
-const isFalsyOrEmpty = (v) => {
+const isFalsyOrEmpty = (v: unknown) => {
   // 1. Catch null, undefined, and empty strings
   if (v === "" || v === null || v === undefined) return true;
   

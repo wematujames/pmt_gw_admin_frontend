@@ -5,7 +5,7 @@ import apiReq from "./utils/nerasikaAxios";
 
 export const login = async (email: string, pwd: string) =>  {
     const res = await apiReq.post(
-      "/auth/login",
+      "/platform/auth/login",
        { email, password: pwd }, 
     );
 
@@ -18,7 +18,7 @@ export const login = async (email: string, pwd: string) =>  {
 
 export const login2fa = async (vCode: string, tkn: string, mfaType: MfaMethod) =>  {
     const res = await apiReq.post(
-      "/auth/login2fa",
+      "/platform/auth/login2fa",
       {  verificationCode: vCode, loginToken: tkn, mfaType },
     );
 
@@ -28,35 +28,35 @@ export const login2fa = async (vCode: string, tkn: string, mfaType: MfaMethod) =
 };
 
 export const loadUser = async () =>  {
-    const res = await apiReq.get( "/auth/user");
+    const res = await apiReq.get( "/platform/auth/user");
 
     return res.data.data;
 };
 
 export const forgotPassword = async (email: string,) =>  {
-   return apiReq.post( "/auth/forgotpassword",  { email });
+   return apiReq.post( "/platform/auth/forgotpassword",  { email });
 };
 
 export const resetPassword = async (tkn: string, pwd: string) =>  {
    return apiReq.post(
-    "/auth/resetpassword", 
+    "/platform/auth/resetpassword", 
     { resetToken: tkn, newPassword: pwd }
    );
 };
 
 export const updateUser = async ( updates: Object) =>  {
 
-  return apiReq.put( "/auth/user/updatedetails", updates );
+  return apiReq.put( "/platform/auth/user/updatedetails", updates );
 };
 
 export const updateUserEmail = async ( updates: Object) =>  {
 
-  return apiReq.put("/auth/user/updateemail", updates );
+  return apiReq.put("/platform/auth/user/updateemail", updates );
 };
 
 export const verifyUserEmail = async ( token: string) =>  {
 
-  return apiReq.put("/auth/user/verifyemail", { token });
+  return apiReq.put("/platform/auth/user/verifyemail", { token });
 };
 
 export const sendSmsOtp = async () =>  {
@@ -65,12 +65,12 @@ export const sendSmsOtp = async () =>  {
 
 export const resendEmailVeriLink = async ( token: string) =>  {
 
-  return apiReq.put( "/auth/user/updateemail",{ token } );
+  return apiReq.put( "/platform/auth/user/updateemail",{ token } );
 };
 
 export const updateUserMobile = async ( updates: Object) =>  {
 
-  return apiReq.put("/auth/user/updatemobile",  updates );
+  return apiReq.put("/platform/auth/user/updatemobile",  updates );
 };
 
 export const updatePassword = async ( 
@@ -79,7 +79,7 @@ export const updatePassword = async (
   confirmNewPassword: string) =>  {
 
   return apiReq.put(
-    "/auth/user/updatepassword",
+    "/platform/auth/user/updatepassword",
     { currentPassword, newPassword, confirmNewPassword }
   );
 };
@@ -87,17 +87,17 @@ export const updatePassword = async (
 export const getQrCode = async () =>  {
 
 
-  const qrCode = await apiReq.get("/auth/genqrcode");
+  const qrCode = await apiReq.get("/platform/auth/genqrcode");
 
   return qrCode.data.data?.qrImage;
 };
 
 export const enable2Fa = async (verficationCode: string) =>  {
-  return apiReq.post( "/auth/enablemultifa", { verficationCode });
+  return apiReq.post( "/platform/auth/enablemultifa", { verficationCode });
 };
 
 export const logoutUser = async () =>  {
-  const res = await apiReq.get("/auth/logout");
+  const res = await apiReq.get("/platform/auth/logout");
   
   return res.data;
 };

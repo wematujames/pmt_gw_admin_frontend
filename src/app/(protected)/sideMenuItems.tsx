@@ -28,14 +28,14 @@ const sideMenuItems = [
       //   label: <Link href="/transactions/overview"> - Overview</Link>,
       // },
       {
-        key: "/transactions/view",
-        label: <Link href="/transactions/view"> - Report</Link>,
+        key: "/transactions",
+        label: <Link href="/transactions"> - Report</Link>,
       },
     ],
   },
   {
     type: "group",
-    key: "/directdebit",
+    key: "/direct-debit",
     label: <Flex align="center" gap={5}> <GoldenFilled /> Direct Debit </Flex>,
     children: [
       // {
@@ -43,8 +43,8 @@ const sideMenuItems = [
       //   label: <Link href="/transactions/overview"> - Overview</Link>,
       // },
       {
-        key: "/directdebit/view",
-        label: <Link href="/directdebits/view"> - Report</Link>,
+        key: "/direct-debit/mandates",
+        label: <Link href="/direct-debit/mandates"> - Report</Link>,
       },
     ],
   },
@@ -70,8 +70,8 @@ const sideMenuItems = [
     label: <Flex align="center" gap={5}> <MdOutlineAppRegistration /> Operations </Flex>,
     children: [
       {
-        key: "/merchants/view",
-        label: <Link href="/merchants/view"> - Merchant</Link>,
+        key: "/merchants",
+        label: <Link href="/merchants"> - Merchant</Link>,
       },
     ],
   },
@@ -81,8 +81,8 @@ const sideMenuItems = [
     label: <Flex align="center" gap={5}> <GiPlatform /> Platform </Flex>,
     children: [
       {
-        key: "/users/view",
-        label: <Link href="/users/view"> - Users</Link>
+        key: "/users",
+        label: <Link href="/users"> - Users</Link>
       }
     ],
   },
